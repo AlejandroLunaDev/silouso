@@ -1,0 +1,64 @@
+<!-- Formulario para agregar productos -->
+<form id="addProductForm" class="form-container">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+    
+    <label for="code">Code:</label>
+    <input type="text" id="code" name="code" required>
+    
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required>
+    
+    <label for="stock">Stock:</label>
+    <input type="number" id="stock" name="stock" required>
+    
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category" required>
+    
+    <label for="thumbnails">Thumbnails:</label>
+    <input type="text" id="thumbnails" name="thumbnails">
+    
+    <button id="submit" type="button">Agregar Producto</button>
+</form>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    const socket = io(); 
+    const form = document.getElementById('addProductForm');
+    const submitButton = document.getElementById('submit');
+
+    submitButton.addEventListener('click', async () => {
+        const formData = new FormData(form);
+        const productData = {};
+
+        formData.forEach((value, key) => {
+            productData[key] = value;
+        });
+
+        socket.emit('addProduct', productData);
+
+        try {
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al agregar el producto.');
+            }
+
+            console.log('Producto agregado exitosamente.');
+            
+            // Limpiar los campos del formulario
+            form.reset();
+        } catch (error) {
+            console.error('Error al agregar el producto:', error);
+        }
+    });
+</script>
