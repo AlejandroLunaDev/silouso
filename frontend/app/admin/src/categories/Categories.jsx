@@ -12,11 +12,9 @@ export default function Categories() {
   const [selectedAvailableCategory, setSelectedAvailableCategory] = useState(null);
 
   useEffect(() => {
-    // Fetch categories from the server when the component mounts
     const fetchCategories = async () => {
       try {
         const result = await getCategories();
-        // Assuming result.payload is an array of category objects
         setCategories(result.payload);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -27,7 +25,6 @@ export default function Categories() {
   }, []);
 
   useEffect(() => {
-    // Load available categories from local storage when the component mounts
     const storedCategories = JSON.parse(localStorage.getItem('categories')) || [];
     setAvailableCategories(storedCategories);
   }, []);
@@ -35,9 +32,7 @@ export default function Categories() {
   const handleAddCategory = async () => {
     if (category && !categories.some(cat => cat.name === category)) {
       try {
-        // Call the service to create the category
         const result = await createCategory(category);
-        // Assuming the result contains the created category object
         setCategories([...categories, result.payload]);
         setCategory('');
       } catch (error) {
@@ -50,7 +45,7 @@ export default function Categories() {
     if (selectedCategory !== null) {
       const newAvailableCategories = [...availableCategories, categories[selectedCategory]];
       setAvailableCategories(newAvailableCategories);
-      localStorage.setItem('categories', JSON.stringify(newAvailableCategories)); // Save to local storage
+      localStorage.setItem('categories', JSON.stringify(newAvailableCategories));
       setCategories(categories.filter((_, index) => index !== selectedCategory));
       setSelectedCategory(null);
     }
@@ -60,7 +55,6 @@ export default function Categories() {
     if (selectedAvailableCategory !== null) {
       const newCategories = [...categories, availableCategories[selectedAvailableCategory]];
       setCategories(newCategories);
-      // Remove from local storage
       const updatedAvailableCategories = availableCategories.filter((_, index) => index !== selectedAvailableCategory);
       localStorage.setItem('categories', JSON.stringify(updatedAvailableCategories));
       setAvailableCategories(updatedAvailableCategories);
@@ -68,26 +62,25 @@ export default function Categories() {
     }
   };
 
-  const handleDeleteCategory = async () => {
-    if (selectedCategory !== null) {
+  const handleDeleteCategory = async (index) => {
+    const categoryList = selectedCategory !== null ? categories : availableCategories;
+    const categoryId = categoryList[index]?.id;
+
+    if (categoryId) {
       try {
-        const categoryId = categories[selectedCategory].id; // Get the ID of the selected category
-        if (!categoryId) {
-          console.error("No category ID found");
-          return;
-        }
-        
         await deleteCategory(categoryId);
 
-        // Update state after deletion
-        const updatedCategories = categories.filter((_, index) => index !== selectedCategory);
-        setCategories(updatedCategories);
-
-        // Update localStorage
-        const newAvailableCategories = [...availableCategories];
-        localStorage.setItem('categories', JSON.stringify(newAvailableCategories));
+        if (selectedCategory !== null) {
+          const updatedCategories = categories.filter((_, i) => i !== index);
+          setCategories(updatedCategories);
+        } else {
+          const updatedAvailableCategories = availableCategories.filter((_, i) => i !== index);
+          setAvailableCategories(updatedAvailableCategories);
+          localStorage.setItem('categories', JSON.stringify(updatedAvailableCategories));
+        }
 
         setSelectedCategory(null);
+        setSelectedAvailableCategory(null);
       } catch (error) {
         console.error("Error deleting category:", error);
       }
@@ -95,75 +88,73 @@ export default function Categories() {
   };
 
   return (
-    <div className="h-dvh flex flex-col items-center gap-4 p-4">
-      <header>
-        <h1 className="text-2xl font-bold">Categories</h1>
-      </header>
-      <input
-        type="text"
-        placeholder="New Category"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className="border border-gray-300 rounded px-2 py-1"
-      />
-      <button
-        onClick={handleAddCategory}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Add Category
-      </button>
-      <div className="flex flex-row gap-4 mt-4">
-        <div className="w-48">
-          <h3 className="text-center font-bold mb-2">Categories</h3>
-          <ul className="border border-gray-300 rounded p-2">
+    <div className="container mx-auto p-4 flex flex-col items-center h-dvh">
+      <h1 className="text-2xl font-bold mb-4">Gestión de Categorías</h1>
+      <p className="text-gray-600 mb-6 text-center">
+        Aquí puedes agregar nuevas categorías, moverlas entre disponibles y activas, o eliminarlas según sea necesario.
+      </p>
+      <div className="flex gap-8">
+        <div className="w-72">
+          <h2 className="text-lg font-semibold mb-2">Categorías Activas</h2>
+          <div className="border border-gray-300 rounded p-2 max-h-72 min-h-56 overflow-y-auto">
             {categories.map((cat, index) => (
-              <li
+              <div
                 key={cat.id}
-                className={`p-2 cursor-pointer ${selectedCategory === index ? 'bg-blue-200' : ''}`}
+                className={`flex items-center justify-between p-2 cursor-pointer ${selectedCategory === index ? 'bg-blue-200' : ''}`}
                 onClick={() => setSelectedCategory(index)}
               >
-                {cat.name}
-              </li>
+                <span>{cat.name}</span>
+                <IoIosTrash size={20} className="text-red-500 cursor-pointer" onClick={() => handleDeleteCategory(index)} />
+              </div>
             ))}
-          </ul>
-          <button
-            onClick={handleDeleteCategory}
-            disabled={selectedCategory === null}
-            className={`mt-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ${selectedCategory === null ? 'text-gray-300' : ''}`}
-          >
-            <IoIosTrash size={24} />
-          </button>
+          </div>
         </div>
-        <div className="flex flex-col justify-center items-center gap-2">
+        <div className="flex flex-col items-center justify-center">
           <button
             onClick={handleMoveToAvailable}
             disabled={selectedCategory === null}
-            className={`p-2 ${selectedCategory === null ? 'text-gray-300' : 'text-black'}`}
+            className="mt-4 p-2 bg-[#61005D] text-white rounded-full disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-black"
           >
             <IoIosArrowForward size={24} />
           </button>
           <button
             onClick={handleMoveToCategories}
             disabled={selectedAvailableCategory === null}
-            className={`p-2 ${selectedAvailableCategory === null ? 'text-gray-300' : 'text-black'}`}
+            className="mt-4 p-2 bg-[#61005D] text-white rounded-full disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-black"
           >
             <IoIosArrowBack size={24} />
           </button>
         </div>
-        <div className="w-48">
-          <h3 className="text-center font-bold mb-2">Available Categories</h3>
-          <ul className="border border-gray-300 rounded p-2">
+        <div className="w-72">
+          <h2 className="text-lg font-semibold mb-2">Categorías Disponibles</h2>
+          <div className="border border-gray-300 rounded p-2 max-h-72 min-h-56 overflow-y-auto">
             {availableCategories.map((cat, index) => (
-              <li
+              <div
                 key={cat.id}
-                className={`p-2 cursor-pointer ${selectedAvailableCategory === index ? 'bg-blue-200' : ''}`}
+                className={`flex items-center justify-between p-2 cursor-pointer ${selectedAvailableCategory === index ? 'bg-blue-200' : ''}`}
                 onClick={() => setSelectedAvailableCategory(index)}
               >
-                {cat.name}
-              </li>
+                <span>{cat.name}</span>
+                <IoIosTrash size={20} className="text-red-500 cursor-pointer" onClick={() => handleDeleteCategory(index)} />
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
+      </div>
+      <div className="mt-6 flex items-center justify-center w-full">
+        <input
+          type="text"
+          placeholder="Nueva Categoría"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border border-gray-300 rounded p-2 mr-2 w-96"
+        />
+        <button
+          onClick={handleAddCategory}
+          className="bg-[#61005D] text-white px-4 py-2 rounded hover:bg-[#61005ee2]"
+        >
+          Agregar Categoría
+        </button>
       </div>
     </div>
   );

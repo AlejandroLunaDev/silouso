@@ -4,8 +4,8 @@ import { BsBorderStyle } from 'react-icons/bs';
 import { GrUserAdmin } from 'react-icons/gr';
 import { HiOutlineUsers } from 'react-icons/hi2';
 import { IoLogOutOutline } from 'react-icons/io5';
-import { GoTasklist } from "react-icons/go";
 import { CiSettings } from "react-icons/ci";
+import { IoListOutline } from "react-icons/io5";
 
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../../../../auth/hook/useAuth';
@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const navItems = [
   { to: 'dashboard', icon: <GoHome />, label: 'Panel' },
   { to: 'products', icon: <AiOutlineProduct />, label: 'Productos' },
-  { to: 'categories', icon: <GoTasklist />, label: 'Categorias' },
+  { to: 'categories', icon: <IoListOutline />, label: 'Categorias' },
   { to: 'orders', icon: <BsBorderStyle />, label: 'Pedidos' },
   { to: 'admins', icon: <GrUserAdmin />, label: 'Admins' },
   { to: 'users', icon: <HiOutlineUsers />, label: 'Usuarios' },
