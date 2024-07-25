@@ -96,7 +96,7 @@ export default function Categories() {
       <div className="flex gap-8">
         <div className="w-72">
           <h2 className="text-lg font-semibold mb-2">Categorías Activas</h2>
-          <div className="border border-gray-300 rounded p-2 max-h-72 min-h-56 overflow-y-auto">
+          <div className="border border-gray-300 rounded p-2 max-h-72 min-h-72 overflow-y-auto">
             {categories.map((cat, index) => (
               <div
                 key={cat.id}
@@ -127,7 +127,7 @@ export default function Categories() {
         </div>
         <div className="w-72">
           <h2 className="text-lg font-semibold mb-2">Categorías Disponibles</h2>
-          <div className="border border-gray-300 rounded p-2 max-h-72 min-h-56 overflow-y-auto">
+          <div className="border border-gray-300 rounded p-2 max-h-72 min-h-72 overflow-y-auto">
             {availableCategories.map((cat, index) => (
               <div
                 key={cat.id}

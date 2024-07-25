@@ -30,11 +30,19 @@ export default function AdminDashboard() {
   if (loading) return <p className="text-center text-lg font-semibold">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
+  const calculateTotalRevenue = (tickets) => {
+    return tickets.reduce((total, ticket) => {
+      return total + ticket.products.reduce((sum, product) => {
+        return sum + ((product.product && product.product.price) ? product.quantity * product.product.price : 0);
+      }, 0);
+    }, 0);
+  };
+
   // Calculate today's sales count and revenue
   const today = new Date().toISOString().slice(0, 10);
   const todayTickets = tickets.filter(ticket => new Date(ticket.updatedAt).toISOString().slice(0, 10) === today);
   const todaySalesCount = todayTickets.length;
-  const todayRevenue = todayTickets.reduce((total, ticket) => total + ticket.products.reduce((sum, product) => sum + (product.quantity * product.product.price), 0), 0);
+  const todayRevenue = calculateTotalRevenue(todayTickets);
 
   // Calculate this week's sales count and revenue
   const todayDate = new Date();
@@ -47,7 +55,7 @@ export default function AdminDashboard() {
     return ticketDate >= startDate && ticketDate <= endDate;
   });
   const weekSalesCount = weekTickets.length;
-  const weekRevenue = weekTickets.reduce((total, ticket) => total + ticket.products.reduce((sum, product) => sum + (product.quantity * product.product.price), 0), 0);
+  const weekRevenue = calculateTotalRevenue(weekTickets);
 
   // Calculate this month's sales count and revenue
   const startOfMonth = new Date(todayDate.getFullYear(), todayDate.getMonth(), 1).toISOString().slice(0, 10);
@@ -57,33 +65,32 @@ export default function AdminDashboard() {
     return ticketDate >= startOfMonth && ticketDate <= endOfMonth;
   });
   const monthSalesCount = monthTickets.length;
-  const monthRevenue = monthTickets.reduce((total, ticket) => total + ticket.products.reduce((sum, product) => sum + (product.quantity * product.product.price), 0), 0);
+  const monthRevenue = calculateTotalRevenue(monthTickets);
 
   return (
-    <section className=" h-dvh p-6">
+    <section className="h-dvh p-6">
       <header className="mb-6">
         <h1 className="text-3xl font-extrabold text-gray-800">Panel</h1>
       </header>
       <div className='flex flex-col gap-6'>
         <article>
-          <h2 className='text-2xl font-semibold text-gray-700 mb-4   '>Pedidos</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <TodayOrders salesCount={todaySalesCount} />
-        <WeekOrders salesCount={weekSalesCount} />
-        <MonthOrders salesCount={monthSalesCount} />
-      </div>
+          <h2 className='text-2xl font-semibold text-gray-700 mb-4'>Pedidos</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <TodayOrders salesCount={todaySalesCount} />
+            <WeekOrders salesCount={weekSalesCount} />
+            <MonthOrders salesCount={monthSalesCount} />
+          </div>
         </article>
         <article>
-          <h2 className='text-2xl font-semibold text-gray-700 mb-4  '>Ingresos</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <TodayRevenue totalRevenue={todayRevenue} salesCount={todaySalesCount} />
-        <WeekRevenue totalRevenue={weekRevenue} salesCount={weekSalesCount} />
-        <MonthRevenue totalRevenue={monthRevenue}
-          salesCount={monthSalesCount} />
-        
-      </div>
+          <h2 className='text-2xl font-semibold text-gray-700 mb-4'>Ingresos</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <TodayRevenue totalRevenue={todayRevenue} salesCount={todaySalesCount} />
+            <WeekRevenue totalRevenue={weekRevenue} salesCount={weekSalesCount} />
+            <MonthRevenue totalRevenue={monthRevenue} salesCount={monthSalesCount} />
+          </div>
         </article>
       </div>
     </section>
   );
 }
+

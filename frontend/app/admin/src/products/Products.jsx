@@ -32,6 +32,7 @@ const Products = () => {
       if (response) {
         setProducts(response.products);
         setTotalPages(response.totalPages);
+        console.log(response.products);
       } else {
         console.error('No se recibieron datos válidos.');
       }

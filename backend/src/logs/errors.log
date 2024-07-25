@@ -210,3 +210,25 @@ error: undefined
 error: undefined
 error: undefined
 error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: Cannot read properties of undefined (reading 'length')
+error: Cannot read properties of undefined (reading 'identification')
+error: Cannot read properties of undefined (reading 'identification')
+error: Cannot read properties of undefined (reading 'length')
+error: undefined
+error: Cannot read properties of undefined (reading 'length')
+error: Cannot read properties of undefined (reading 'length')
+error: Cannot read properties of undefined (reading 'length')
+error: Cannot read properties of null (reading 'split')
+error: Cannot read properties of null (reading 'split')
+error: Cannot read properties of null (reading 'split')
+error: Cannot read properties of null (reading 'split')
+error: product is not defined
+error: Cast to Number failed for value "undefined" (type string) at path "price"

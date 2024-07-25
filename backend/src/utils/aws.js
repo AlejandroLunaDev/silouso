@@ -1,5 +1,4 @@
-// utils/aws.js
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3 = new S3Client({
   region: 'us-east-2',
@@ -11,6 +10,7 @@ const s3 = new S3Client({
 
 const BUCKET_NAME = 'silouso-tec';
 
+// Función para subir archivos a S3
 const uploadToS3 = async (file) => {
   try {
     const params = {
@@ -28,6 +28,9 @@ const uploadToS3 = async (file) => {
     throw new Error("Error uploading to S3");
   }
 };
+
+// Función para eliminar archivos de S3
+
 
 module.exports = {
   uploadToS3,

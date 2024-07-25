@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
 
       // Enviar correo
       const result = await transport.sendMail({
-        from: "SiLoUso <alejandrolunadev@gmail.com>",
+        from: "SiLoUsotec <alejandrolunadev@gmail.com>",
         to: req.query.email,
         subject: "Orden de compra",
         html: `
