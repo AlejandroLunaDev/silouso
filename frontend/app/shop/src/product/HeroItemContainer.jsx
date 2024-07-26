@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { TiShoppingCart } from "react-icons/ti";
 
 export default function HeroItemContainer() {
   const [product, setProduct] = useState(null);
@@ -38,11 +39,18 @@ export default function HeroItemContainer() {
       <div className="relative flex items-center justify-center w-full h-full p-4 text-white">
         <div className="flex items-center justify-center overflow-hidden">
           <div className="p-4 w-2/3">
-            <h1 className="text-7xl font-bold mb-2">{product.title}</h1>
+            <h1 className="text-6xl font-bold mb-2">{product.title}</h1>
             <p className="mb-4">{product.description}</p>
-            <Link to={`/product/${product._id}`} className="underline">
+            <div className="flex gap-4 items-center">
+
+            <Link to={`/product/${product._id}`} className=" border p-3 rounded hover:bg-[#61005D] hover:border-none">
               Ver más
             </Link>
+            <button className=" flex items-center  gap-2 border p-3 rounded hover:bg-[#61005D] hover:border-none">
+              <TiShoppingCart className="text-xl" />
+              Comprar
+              </button>
+            </div>
           </div>
           <img
             src={product.thumbnails[0]}

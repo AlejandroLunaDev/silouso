@@ -2,6 +2,6 @@
 
 export default function User() {
   return (
-    <div className="text-white">Login</div>
+    <div className="text-[#61005D]">Login</div>
   )
 }
