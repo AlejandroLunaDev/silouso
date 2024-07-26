@@ -15,7 +15,7 @@ export default function AuthProvider({ children }) {
     try {
       const response = await loginUser(credentials);
       const data = await response.json(); // Esto es innecesario y provoca el error
-
+      console.log(data)
       return data;
     } catch (error) {
       console.error('Login error in AuthProvider:', error);
@@ -38,6 +38,7 @@ export default function AuthProvider({ children }) {
     try {
       const response = await loginGitHubUser();
       const data = await response.json();
+      console.log(data)
       return data;
     } catch (error) {
       console.error('Login with GitHub error in AuthProvider:', error);
@@ -48,6 +49,7 @@ export default function AuthProvider({ children }) {
   const loginWithGoogle = async () => {
     try {
       const response = await loginGoogleUser();
+      console.log(response)
       const data = await response.json();
       return data;
     } catch (error) {

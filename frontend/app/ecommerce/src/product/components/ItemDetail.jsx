@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
@@ -89,7 +90,7 @@ export default function ItemDetail({ product }) {
   // Log product to the console
   console.log("Product:", product);
 
-  const handleOnAdd = (quantity) => {
+ /*  const handleOnAdd = (quantity) => {
     const objProductToAdd = {
       _id,
       title,
@@ -99,7 +100,7 @@ export default function ItemDetail({ product }) {
       stock,
     };
     addItem(objProductToAdd);
-  };
+  }; */
 
   return (
     <section className="flex-none md:flex gap-4  items-center">

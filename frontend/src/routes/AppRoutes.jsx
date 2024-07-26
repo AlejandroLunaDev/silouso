@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import AdminApp from '../../app/admin/src/AdminApp';
-import ShopApp from '../../app/shop/src/ShopApp';
+import ShopApp from '../../app/ecommerce/src/ShopApp';
 
 export default function AppRoutes() {
   return (

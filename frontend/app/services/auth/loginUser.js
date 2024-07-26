@@ -13,6 +13,7 @@ export const loginUser = async (credentials) => {
     if (data.payload.user.user.role === 'admin') {
         window.location.href = '/admin';
     }else{
+        localStorage.setItem('user', JSON.stringify(data.payload.user.user));
         window.location.href = '/';
     }
 

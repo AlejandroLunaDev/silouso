@@ -7,6 +7,7 @@ import PasswordRecovery from '../../auth/components/PaswwordRecovery';
 import RegisterForm from '../../auth/components/RegisterForm';
 import NavBar from './layout/navBar/NavBar';
 import ItemDetailContainer from './product/ItemDetailContainer';
+import Shop from './shop/Shop';
 
 export default function ShopApp() {
   const location = useLocation();
@@ -25,6 +26,7 @@ export default function ShopApp() {
         <Route path='/passwordRecovery' element={<PasswordRecovery />} />
         <Route path='/resetpassword' element={<UpdatePassword />} />
         <Route path='/product/:productId' element={<ItemDetailContainer />} />
+        <Route path='/shop' element={<Shop />} />
 
         </Routes>
     </div>

@@ -2,7 +2,7 @@
 import { getProducts } from "../../../services/products";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { ItemList } from "./components/ItemList";
+import { LastItemList } from "./components/LastItemList";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
@@ -50,7 +50,7 @@ export default function LastItemListContainer() {
         <Slider {...settings}>
             {products.map(product => (
                 <div key={product._id} className="px-3">
-                    <ItemList products={[product]} />
+                    <LastItemList products={[product]} />
                 </div>
             ))}
         </Slider>
