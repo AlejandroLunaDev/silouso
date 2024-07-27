@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     return res.sendSuccess(categories);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    req.logger?.error(error.cause);
-    return res.sendServerError(error.message);
+    req.logger?.error(error.cause || error);
+    return res.sendServerError(error.message || error);
   }
 };

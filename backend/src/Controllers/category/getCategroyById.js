@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     return res.sendSuccess(category);
   } catch (error) {
     console.error("Error fetching category by ID:", error);
-    req.logger?.error(error.cause);
-    return res.sendServerError(error.message);
+    req.logger?.error(error.cause || error);
+    return res.sendServerError(error.message || error);
   }
 };

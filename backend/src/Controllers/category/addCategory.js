@@ -5,7 +5,7 @@ const { generateCategoryErrorInfo } = require("../../utils/CustomErrors/info");
 
 module.exports = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, parentCategory, isAvailable } = req.body;
 
     // Validar que se haya proporcionado el nombre de la categoría
     if (!name) {
@@ -16,9 +16,9 @@ module.exports = async (req, res) => {
         code: EErrors.INVALID_TYPE_ERROR,
       });
     }
-
+    const categoryIsAvailable = isAvailable === undefined ? true : isAvailable;
     // Crear la nueva categoría
-    const category = await categoryService.create(name);
+    const category = await categoryService.create(name, parentCategory, categoryIsAvailable);
 
     // Emitir actualización si es necesario (ejemplo, si se usa un sistema de eventos)
     req.io?.emit("actualizarCategorias");

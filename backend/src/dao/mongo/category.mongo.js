@@ -1,11 +1,9 @@
-// dao/category.mongo.js
-
-const Category = require('./models/category.model');
+const Category = require('../mongo/models/category.model');
 
 class CategoryDAO {
-  async createCategory(name) {
+  async createCategory(name, parentCategory = null, isAvailable = true) {
     try {
-      const category = new Category({ name });
+      const category = new Category({ name, parentCategory, isAvailable });
       return await category.save();
     } catch (error) {
       throw new Error(`Error creating category: ${error.message}`);
@@ -14,7 +12,7 @@ class CategoryDAO {
 
   async getAllCategories() {
     try {
-      return await Category.find();
+      return await Category.find().populate('parentCategory');
     } catch (error) {
       throw new Error(`Error fetching categories: ${error.message}`);
     }
@@ -22,25 +20,42 @@ class CategoryDAO {
 
   async getCategoryById(id) {
     try {
-      return await Category.findById(id);
+      return await Category.findById(id).populate('parentCategory');
     } catch (error) {
       throw new Error(`Error fetching category by ID: ${error.message}`);
     }
   }
 
-  async updateCategory(id, name) {
+  async updateCategory(id, updatedCategoryData) {
     try {
-      return await Category.findByIdAndUpdate(id, { name }, { new: true });
+        return await Category.findByIdAndUpdate(
+            id,
+            updatedCategoryData,
+            { new: true }
+        );
     } catch (error) {
-      throw new Error(`Error updating category: ${error.message}`);
+        throw new Error(`Error updating category: ${error.message}`);
     }
-  }
+}
+
 
   async deleteCategory(id) {
     try {
       return await Category.findByIdAndDelete(id);
     } catch (error) {
       throw new Error(`Error deleting category: ${error.message}`);
+    }
+  }
+
+  async updateCategoryAvailability(id, isAvailable) {
+    try {
+      return await Category.findByIdAndUpdate(
+        id, 
+        { isAvailable }, 
+        { new: true }
+      );
+    } catch (error) {
+      throw new Error(`Error updating category availability: ${error.message}`);
     }
   }
 }

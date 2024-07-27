@@ -18,6 +18,10 @@ const productSchema = new Schema({
   thumbnails: [{
     type: String
   }],
+  isPromoted: {
+    type: Boolean,
+    default: false
+  },
   code: {
     type: String,
     required: true,

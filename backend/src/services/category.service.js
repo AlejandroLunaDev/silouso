@@ -15,13 +15,13 @@ class CategoryService {
     return new CategoryDTO(category);
   }
 
-  async create(name) {
-    const newCategory = await this.dao.createCategory(name);
+  async create(name, parentCategory = null, isAvailable = true) {
+    const newCategory = await this.dao.createCategory(name, parentCategory, isAvailable);
     return new CategoryDTO(newCategory);
   }
 
-  async update(id, name) {
-    const updatedCategory = await this.dao.updateCategory(id, name);
+  async update(id, updatedCategoryData) {
+    const updatedCategory = await this.dao.updateCategory(id, updatedCategoryData);
     return new CategoryDTO(updatedCategory);
   }
 
@@ -29,6 +29,14 @@ class CategoryService {
     const deletedCategory = await this.dao.deleteCategory(id);
     return new CategoryDTO(deletedCategory);
   }
+
+  async updateAvailability(id, isAvailable) {
+    const updatedCategory = await this.dao.updateCategoryAvailability(id, isAvailable);
+    return new CategoryDTO(updatedCategory);
+  }
 }
+
+module.exports = CategoryService;
+
 
 module.exports = CategoryService;

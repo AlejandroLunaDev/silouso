@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { IoIosArrowForward, IoIosArrowBack, IoIosTrash } from "react-icons/io";
 import { createCategory } from '../../../services/categories/createCategory';
+import { createSubcategory } from '../../../services/categories/createSubCategory';
 import { getCategories } from '../../../services/categories/getCategories';
-import { deleteCategory } from '../../../services/categories/deleteCategory'; 
+import { deleteCategory } from '../../../services/categories/deleteCategory';
+import { updateCategory } from '../../../services/categories/updateCategory';
 
 export default function Categories() {
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(''); // Estado para la categoría principal
+  const [subcategory, setSubcategory] = useState(''); // Estado para la subcategoría
+  const [parentCategoryId, setParentCategoryId] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [availableCategories, setAvailableCategories] = useState([]);
@@ -15,18 +19,17 @@ export default function Categories() {
     const fetchCategories = async () => {
       try {
         const result = await getCategories();
-        setCategories(result.payload);
+        const allCategories = result.payload;
+        const activeCategories = allCategories.filter(cat => !cat.isAvailable);
+        const availCategories = allCategories.filter(cat => cat.isAvailable);
+        setCategories(activeCategories);
+        setAvailableCategories(availCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
 
     fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    const storedCategories = JSON.parse(localStorage.getItem('categories')) || [];
-    setAvailableCategories(storedCategories);
   }, []);
 
   const handleAddCategory = async () => {
@@ -41,44 +44,89 @@ export default function Categories() {
     }
   };
 
-  const handleMoveToAvailable = () => {
+  const handleAddSubcategory = async () => {
+    if (subcategory && parentCategoryId) {
+      try {
+        const result = await createSubcategory(subcategory, parentCategoryId);
+        setCategories([...categories, result.payload]);
+        setSubcategory('');
+        setParentCategoryId('');
+      } catch (error) {
+        console.error("Error adding subcategory:", error);
+      }
+    }
+  };
+
+  const handleMoveToAvailable = async () => {
     if (selectedCategory !== null) {
-      const newAvailableCategories = [...availableCategories, categories[selectedCategory]];
-      setAvailableCategories(newAvailableCategories);
-      localStorage.setItem('categories', JSON.stringify(newAvailableCategories));
-      setCategories(categories.filter((_, index) => index !== selectedCategory));
-      setSelectedCategory(null);
-    }
-  };
+        const categoryToMove = categories[selectedCategory];
+        const updatedCategory = { 
+            ...categoryToMove, 
+            isAvailable: true 
+        };
 
-  const handleMoveToCategories = () => {
+        try {
+            // Actualizar en el servidor
+            const result = await updateCategory(
+                updatedCategory.id,
+                updatedCategory.name,
+                updatedCategory.isAvailable,
+                updatedCategory.parentCategory
+            );
+
+            const newAvailableCategories = [...availableCategories, result.payload];
+            setAvailableCategories(newAvailableCategories);
+            setCategories(categories.filter((_, index) => index !== selectedCategory));
+            setSelectedCategory(null);
+        } catch (error) {
+            console.error("Error moving category to available:", error);
+        }
+    }
+};
+
+const handleMoveToCategories = async () => {
     if (selectedAvailableCategory !== null) {
-      const newCategories = [...categories, availableCategories[selectedAvailableCategory]];
-      setCategories(newCategories);
-      const updatedAvailableCategories = availableCategories.filter((_, index) => index !== selectedAvailableCategory);
-      localStorage.setItem('categories', JSON.stringify(updatedAvailableCategories));
-      setAvailableCategories(updatedAvailableCategories);
-      setSelectedAvailableCategory(null);
-    }
-  };
+        const categoryToMove = availableCategories[selectedAvailableCategory];
+        const updatedCategory = { 
+            ...categoryToMove, 
+            isAvailable: false 
+        };
 
-  const handleDeleteCategory = async (index) => {
-    const categoryList = selectedCategory !== null ? categories : availableCategories;
+        try {
+            // Actualizar en el servidor
+            const result = await updateCategory(
+                updatedCategory.id,
+                updatedCategory.name,
+                updatedCategory.isAvailable,
+                updatedCategory.parentCategory
+            );
+
+            const newCategories = [...categories, result.payload];
+            setCategories(newCategories);
+            setAvailableCategories(availableCategories.filter((_, index) => index !== selectedAvailableCategory));
+            setSelectedAvailableCategory(null);
+        } catch (error) {
+            console.error("Error moving category to active:", error);
+        }
+    }
+};
+
+  
+
+  const handleDeleteCategory = async (index, isAvailable) => {
+    const categoryList = isAvailable ? availableCategories : categories;
     const categoryId = categoryList[index]?.id;
 
     if (categoryId) {
       try {
         await deleteCategory(categoryId);
-
-        if (selectedCategory !== null) {
-          const updatedCategories = categories.filter((_, i) => i !== index);
-          setCategories(updatedCategories);
-        } else {
+        if (isAvailable) {
           const updatedAvailableCategories = availableCategories.filter((_, i) => i !== index);
           setAvailableCategories(updatedAvailableCategories);
-          localStorage.setItem('categories', JSON.stringify(updatedAvailableCategories));
+        } else {
+          const updatedCategories = categories.filter((_, i) => i !== index);
+          setCategories(updatedCategories);
         }
-
         setSelectedCategory(null);
         setSelectedAvailableCategory(null);
       } catch (error) {
@@ -104,7 +152,7 @@ export default function Categories() {
                 onClick={() => setSelectedCategory(index)}
               >
                 <span>{cat.name}</span>
-                <IoIosTrash size={20} className="text-red-500 cursor-pointer" onClick={() => handleDeleteCategory(index)} />
+                <IoIosTrash size={20} className="text-red-500 cursor-pointer" onClick={() => handleDeleteCategory(index, false)} />
               </div>
             ))}
           </div>
@@ -135,7 +183,7 @@ export default function Categories() {
                 onClick={() => setSelectedAvailableCategory(index)}
               >
                 <span>{cat.name}</span>
-                <IoIosTrash size={20} className="text-red-500 cursor-pointer" onClick={() => handleDeleteCategory(index)} />
+                <IoIosTrash size={20} className="text-red-500 cursor-pointer" onClick={() => handleDeleteCategory(index, true)} />
               </div>
             ))}
           </div>
@@ -154,6 +202,31 @@ export default function Categories() {
           className="bg-[#61005D] text-white px-4 py-2 rounded hover:bg-[#61005ee2]"
         >
           Agregar Categoría
+        </button>
+      </div>
+      <div className="mt-6 flex items-center justify-center w-full">
+        <input
+          type="text"
+          placeholder="Nueva Subcategoría"
+          value={subcategory}
+          onChange={(e) => setSubcategory(e.target.value)}
+          className="border border-gray-300 rounded p-2 mr-2 w-96"
+        />
+        <select
+          value={parentCategoryId}
+          onChange={(e) => setParentCategoryId(e.target.value)}
+          className="border border-gray-300 rounded p-2 mr-2 w-96"
+        >
+          <option value="">Selecciona Categoría Principal</option>
+          {categories.map(cat => (
+            <option key={cat.id} value={cat.id}>{cat.name}</option>
+          ))}
+        </select>
+        <button
+          onClick={handleAddSubcategory}
+          className="bg-[#61005D] text-white px-4 py-2 rounded hover:bg-[#61005ee2]"
+        >
+          Agregar Subcategoría
         </button>
       </div>
     </div>
