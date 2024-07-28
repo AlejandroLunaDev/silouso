@@ -4,6 +4,7 @@ import { createProduct } from '../../../../services/products';
 import { FaDesktop,FaMouse, FaHeadphones, FaLaptop, FaWifi, FaHdd, FaPrint, FaArrowLeft, FaArrowRight,FaMicrochip } from 'react-icons/fa'; 
 
 import { AiOutlineUpload } from 'react-icons/ai';
+import { getCategories } from '../../../../services/categories/getCategories';
 
 const AddProduct = ({ onCancel, onAdd }) => {
   const [productData, setProductData] = useState({
@@ -18,12 +19,22 @@ const AddProduct = ({ onCancel, onAdd }) => {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [categories, setCategories] = useState([]);
   const [step, setStep] = useState(1); 
+  const [availableCategories, setAvailableCategories] = useState([]);
 
   useEffect(() => {
-    const storedCategories = JSON.parse(localStorage.getItem('categories')) || [];
-    setCategories(storedCategories);
+    const fetchCategories = async () => {
+      try {
+        const result = await getCategories();
+        const allCategories = result.payload;
+        const availCategories = allCategories.filter(cat => cat.isAvailable === true);
+        setAvailableCategories(availCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   const handleChange = e => {
@@ -54,32 +65,38 @@ const AddProduct = ({ onCancel, onAdd }) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+  
     try {
       // Crear un objeto FormData para enviar el formulario y las imágenes
       const formData = new FormData();
       formData.append('title', productData.title);
       formData.append('price', productData.price);
       formData.append('stock', productData.stock);
-      formData.append('category', productData.category);
+      formData.append('category', productData.category); // Asegúrate de incluir la categoría
       formData.append('description', productData.description);
       formData.append('code', productData.code);
       files.forEach(file => formData.append('identification', file));
 
-      // Enviar el formulario con las imágenes al servidor
-      await createProduct(formData);
-
+    
+  
+      // Llama a createProduct con el FormData
+      const response = await createProduct(formData);
+  
+      // Manejar la respuesta del servidor...
+      console.log('Producto creado exitosamente:', response);
       onAdd();
-      onCancel();
     } catch (error) {
-      setError(error.message || 'Error creating product. Please try again.');
+      console.error('Error al crear el producto:', error.message);
+      setError('Error al crear el producto');
     } finally {
       setLoading(false);
     }
   };
+  
 
   // Mapeo de categorías con íconos
   const iconMap = {
-    'Computadoras': <FaLaptop />,
+    'laptops': <FaLaptop />,
     'Periféricos': <FaMouse />,
     'Monitores': <FaDesktop />,
     'Accesorios': <FaHeadphones />,
@@ -184,7 +201,7 @@ const AddProduct = ({ onCancel, onAdd }) => {
           <div className='mb-4'>
             <label className='block text-md font-bold text-gray-700 text-center mb-3'>Categoría</label>
             <div className='flex flex-wrap gap-2 justify-center'>
-              {categories.map((cat, index) => (
+              {availableCategories.map((cat, index) => (
                 <button
                   key={index}
                   type='button'

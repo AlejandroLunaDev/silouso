@@ -9,6 +9,7 @@ class ProductDto {
     this.stock = product.stock;
     this.category = product.category;
     this.status = product.status;
+    this.isPromoted = product.isPromoted;
   }
 }
 

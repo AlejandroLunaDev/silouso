@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { getProducts } from '../../../services/products';
+import { updateProduct } from '../../../services/products';
 
 export default function Settings() {
   const [products, setProducts] = useState([]);
@@ -8,17 +9,18 @@ export default function Settings() {
 
   useEffect(() => {
     fetchProducts();
-    const savedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-    if (savedProduct) {
-      setSelectedProduct(savedProduct);
-    }
   }, []);
 
   const fetchProducts = async () => {
     try {
       const response = await getProducts();
       if (response) {
-        setProducts(response.products);
+        const allProducts = response.products;
+        setProducts(allProducts);
+        
+        // Encontrar el producto que está promocionado
+        const promotedProduct = allProducts.find(p => p.isPromoted);
+        setSelectedProduct(promotedProduct || null);
       } else {
         console.error('No se recibieron datos válidos.');
       }
@@ -27,15 +29,38 @@ export default function Settings() {
     }
   };
 
-  const handleSelectProduct = (selectedOption) => {
+  const handleSelectProduct = async (selectedOption) => {
     const product = products.find(p => p._id === selectedOption.value);
-    setSelectedProduct(product);
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
+
+    // Actualizar el producto seleccionado para poner isPromoted en true
+    try {
+      if (selectedProduct) {
+        // Revertir el estado del producto actualmente promocionado
+        await updateProduct(selectedProduct._id, { ...selectedProduct, isPromoted: false });
+      }
+      
+      const updatedProduct = { ...product, isPromoted: true };
+      await updateProduct(product._id, updatedProduct);
+
+      // Actualizar el estado con el nuevo producto promocionado
+      setSelectedProduct(updatedProduct);
+      fetchProducts(); // Refrescar la lista de productos
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
   };
 
-  const handleRemoveProduct = () => {
-    setSelectedProduct(null);
-    localStorage.removeItem('selectedProduct');
+  const handleRemoveProduct = async () => {
+    if (selectedProduct) {
+      // Revertir el campo isPromoted a false
+      try {
+        await updateProduct(selectedProduct._id, { ...selectedProduct, isPromoted: false });
+        setSelectedProduct(null);
+        fetchProducts(); // Refrescar la lista de productos
+      } catch (error) {
+        console.error('Error updating product:', error);
+      }
+    }
   };
 
   const options = products.map(product => ({

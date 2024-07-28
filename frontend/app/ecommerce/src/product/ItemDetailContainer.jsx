@@ -11,8 +11,8 @@ export default function ItemDetailContainer() {
     const fetchProduct = async () => {
       try {
         const response = await getProductById(productId);
-        if (response) {
-          setProduct(response);
+        if (response && response.payload) {
+          setProduct(response.payload); // Extrae payload aquí
         }
       } catch (error) {
         console.error('Error fetching product:', error);

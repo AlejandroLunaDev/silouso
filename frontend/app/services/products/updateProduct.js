@@ -9,7 +9,8 @@ export const updateProduct = async (productId, productData, files) => {
     formData.append('description', productData.description);
     formData.append('price', productData.price);
     formData.append('stock', productData.stock);
-    formData.append('category', productData.category);
+    formData.append('category', productData.category._id);
+    formData.append('isPromoted', productData.isPromoted ? 'true' : 'false');
 
     // Agregar las imágenes al FormData
     if (files && files.length > 0) {

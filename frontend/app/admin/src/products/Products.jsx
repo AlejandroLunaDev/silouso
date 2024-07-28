@@ -211,7 +211,7 @@ const Products = () => {
                     {product.stock}
                   </td>
                   <td className='border border-gray-300 px-4 py-2'>
-                    {product.category}
+                    {product.category.name}
                   </td>
                   <td className='border border-gray-300 px-4 py-2'>
                     {new Date(product.created_at).toLocaleDateString()}

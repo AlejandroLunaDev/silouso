@@ -1,16 +1,28 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { TiShoppingCart } from "react-icons/ti";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { TiShoppingCart } from 'react-icons/ti';
+import { getProducts } from '../../../services/products'; // Asegúrate de importar la función correctamente
 
 export default function HeroItemContainer() {
   const [product, setProduct] = useState(null);
   const [videoSrc, setVideoSrc] = useState("");
 
   useEffect(() => {
-    const storedProduct = localStorage.getItem('selectedProduct');
-    if (storedProduct) {
-      setProduct(JSON.parse(storedProduct));
-    }
+    const fetchPromotedProduct = async () => {
+      try {
+        const response = await getProducts();
+        if (response && response.products) {
+          const promotedProduct = response.products.find(p => p.isPromoted);
+          setProduct(promotedProduct || null);
+        } else {
+          console.error('No se recibieron datos válidos.');
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchPromotedProduct();
   }, []);
 
   useEffect(() => {
@@ -42,13 +54,12 @@ export default function HeroItemContainer() {
             <h1 className="text-6xl font-bold mb-2">{product.title}</h1>
             <p className="mb-4">{product.description}</p>
             <div className="flex gap-4 items-center">
-
-            <Link to={`/product/${product._id}`} className=" border p-3 rounded hover:bg-[#61005D] hover:border-none">
-              Ver más
-            </Link>
-            <button className=" flex items-center  gap-2 border p-3 rounded hover:bg-[#61005D] hover:border-none">
-              <TiShoppingCart className="text-xl" />
-              Comprar
+              <Link to={`/product/${product._id}`} className="border p-3 rounded hover:bg-[#61005D] hover:border-none">
+                Ver más
+              </Link>
+              <button className="flex items-center gap-2 border p-3 rounded hover:bg-[#61005D] hover:border-none">
+                <TiShoppingCart className="text-xl" />
+                Comprar
               </button>
             </div>
           </div>

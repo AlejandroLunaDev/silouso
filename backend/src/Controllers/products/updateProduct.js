@@ -3,9 +3,9 @@ const { uploadToS3 } = require("../../utils/aws");
 
 module.exports = async (req, res) => {
   try {
-    const { title, description, price, stock, category } = req.body;
+    const { title, description, price, stock, category, isPromoted } = req.body;
     const pid = req.params.pid;
-    const files = req.files['identification']; // Asegúrate de que `files` sea un array
+    const files = req.files['identification']; 
 
     if (!title || !description || !price || !stock || !category) {
       return res.sendUserError("Faltan datos");
@@ -16,23 +16,24 @@ module.exports = async (req, res) => {
       return res.sendUserError("Product doesn't exist");
     }
 
-    // Subir las nuevas imágenes a S3
-    let imageUrls = [];
+    let imageUrls = existProduct.thumbnails;
     if (files && files.length > 0) {
-      imageUrls = await Promise.all(
+      const uploadedImages = await Promise.all(
         files.map(file => uploadToS3(file))
       );
+      imageUrls = uploadedImages.map(url => url.Location); 
     }
 
     const updatedProductData = {
       title,
       description,
-      price,
-      stock,
+      price: parseFloat(price), // Asegurar que el precio sea un número
+      stock: parseInt(stock, 10), // Asegurar que el stock sea un entero
       category,
-      thumbnails: imageUrls.map(url => url.Location), // Actualizar solo con las nuevas imágenes
+      isPromoted: isPromoted !== undefined ? JSON.parse(isPromoted) : existProduct.isPromoted, // Asegurar que isPromoted sea un booleano
+      thumbnails: imageUrls
     };
-
+    console.log('Updating product with data:', updatedProductData);
     await productService.update(pid, updatedProductData);
 
     // Obtener productos actualizados para notificar

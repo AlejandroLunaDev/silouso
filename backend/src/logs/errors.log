@@ -265,3 +265,33 @@ error: Cannot read properties of null (reading '_id')
 error: Error updating category: Cast to string failed for value "{ name: 'redes', isAvailable: null, parentCategory: true }" (type Object) at path "name"
 error: Error updating category: Cast to string failed for value "{ name: 'redes', isAvailable: null, parentCategory: true }" (type Object) at path "name"
 error: Error updating category: Cast to string failed for value "{ name: 'redes', isAvailable: null, parentCategory: true }" (type Object) at path "name"
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: Cannot read properties of undefined (reading 'findOne')
+error: undefined
+error: Cannot read properties of undefined (reading 'find')
+error: Cannot read properties of undefined (reading 'find')
+error: Cannot read properties of undefined (reading 'find')
+error: Cannot read properties of undefined (reading 'find')
+error: undefined
+error: undefined
+error: Cast to ObjectId failed for value "[object Object]" (type string) at path "category" because of "BSONError"
+error: isPromoted is not defined
+error: Cannot read properties of null (reading 'Location')
+error: Cannot read properties of null (reading 'Location')
+error: Cannot read properties of null (reading 'Location')
+error: Cannot read properties of null (reading 'Location')
+error: undefined

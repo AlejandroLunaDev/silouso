@@ -1,16 +1,19 @@
+// src/services/products.service.js
+
+const ProductDao = require('../dao/mongo/product.mongo');
 const ProductDto = require("../dto/Product.dto");
 
 class ProductsService {
-  constructor(dao) {
-    this.dao = new dao();
+  constructor() {
+    this.dao = new ProductDao();
   }
 
   async get(query = {}, options = { pagination: false, lean: true }) {
     return await this.dao.getProducts(query, options);
   }
 
-  async getById(pid) {
-    return await this.dao.getProductById(pid);
+  async getById(pid, options = {}) {
+    return await this.dao.getProductById(pid, options);
   }
 
   async create(product) {

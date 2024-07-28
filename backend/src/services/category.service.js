@@ -34,9 +34,11 @@ class CategoryService {
     const updatedCategory = await this.dao.updateCategoryAvailability(id, isAvailable);
     return new CategoryDTO(updatedCategory);
   }
+
+  async findByName(name) {
+    const category = await this.dao.findCategoryByName(name);
+    return new CategoryDTO(category);
+  }
 }
-
-module.exports = CategoryService;
-
 
 module.exports = CategoryService;
