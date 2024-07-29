@@ -11,11 +11,13 @@ module.exports = (req, res) => {
     email: user.email,
     role: user.role,
     cartId: user.cartId,
+    thumbnail: user.thumbnail
   };
   const token = generaJWT(userLimited);
   res.cookie(config.PASS_COOKIE, token, {
     maxAge: 1000 * 60 * 60,
-    httpOnly: true,
+    httpOnly: false,
+    sameSite: "Lax",
   });
 
   

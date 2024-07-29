@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { loginUser } from '../../services/auth/loginUser';
 import { logOutUser } from '../../services/auth/logOutUser';
 import { loginGitHubUser } from '../../services/auth/loginGitHubUser';
@@ -7,10 +7,26 @@ import { loginGoogleUser } from '../../services/auth/loginGoogleUser';
 import { registerUser } from '../../services/auth/registerUser';
 import { recoverPassword } from '../../services/auth/recoverPassword';
 import { updatePassword } from '../../services/auth/updatePassword';
+import Cookies from 'js-cookie';
+import {jwtDecode} from 'jwt-decode';
 
 export const AuthContext = createContext();
 
+
 export default function AuthProvider({ children }) {
+  const [user, setUser] = useState({ token: Cookies.get('coderCookie') });
+
+ 
+  useEffect(() => {
+    const token = Cookies.get('coderCookie');
+ // Añadir un log para verificar el token
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      setUser({ token }); // Guardamos el token en el estado de usuario
+    }
+  }, []);
+
   const login = async credentials => {
     try {
       const response = await loginUser(credentials);
@@ -98,7 +114,8 @@ export default function AuthProvider({ children }) {
         loginWithGoogle,
         register,
         recoveredPassword,
-        updatePasswordOk
+        updatePasswordOk,
+        user,
       }}
     >
       {children}

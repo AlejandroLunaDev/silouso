@@ -8,7 +8,7 @@ import { CiSettings } from "react-icons/ci";
 import { IoListOutline } from "react-icons/io5";
 
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../../../../auth/hook/useAuth';
+import { useAuth } from '../../../../../common/auth/hook/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const navItems = [

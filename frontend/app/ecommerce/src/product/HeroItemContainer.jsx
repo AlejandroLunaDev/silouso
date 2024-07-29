@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TiShoppingCart } from 'react-icons/ti';
-import { getProducts } from '../../../services/products'; // Asegúrate de importar la función correctamente
+import { getProducts } from '../../../common/services/products'; // Asegúrate de importar la función correctamente
 
 export default function HeroItemContainer() {
   const [product, setProduct] = useState(null);

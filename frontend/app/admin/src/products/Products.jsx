@@ -7,7 +7,7 @@ import { PiTrashLight } from 'react-icons/pi';
 import { IoAdd } from 'react-icons/io5';
 
 import { useState, useEffect } from 'react';
-import { getProducts, deleteProduct } from '../../../services/products';
+import { getProducts, deleteProduct } from '../../../common/services/products';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 import EditProduct from './components/EditProduct';

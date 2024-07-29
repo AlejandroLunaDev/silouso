@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../../../services/products';
+import { getProductById } from '../../../common/services/products';
 import { useEffect, useState } from 'react';
 import ItemDetail from './components/ItemDetail';
 

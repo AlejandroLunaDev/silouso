@@ -27,9 +27,9 @@ module.exports = async (req, res) => {
     const token = generaJWT(userLimited);
     res.cookie(config.PASS_COOKIE, token, {
       maxAge: 1000 * 60 * 60,
-      httpOnly: true,
-      sameSite: 'None', // Esto es importante para cookies en entornos cross-domain
-      secure: true,   // Esto es importante para cookies en entornos cross-domain
+      httpOnly: false,
+      sameSite: 'Lax', // Esto es importante para cookies en entornos cross-domain
+         // Esto es importante para cookies en entornos cross-domain
   
     });
 

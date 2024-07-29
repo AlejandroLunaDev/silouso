@@ -1,5 +1,5 @@
 
-import AuthProvider from "../app/auth/context/AuthProvider";
+import AuthProvider from "../app/common/auth/context/AuthProvider";
 import AppRoutes from "./routes/AppRoutes";
 
 

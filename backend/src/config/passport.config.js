@@ -63,6 +63,7 @@ const inicializaPassport = () => {
                 bcrypt.genSaltSync(10)
               ),
               cartId,
+               avatar: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : 'https://via.placeholder.com/150'
             };
             const result = await userModel.create(newUsuario);
             return done(null, result);
@@ -85,8 +86,8 @@ const inicializaPassport = () => {
       },
       async (token, tokenRefresh, profile, done) => {
         try {
-          const usuario = await userService.getUserByEmail(profile._json.email);
-          if (!usuario) {
+          const user = await userService.getUserByEmail(profile._json.email);
+          if (!user) {
             let cartId = await cartService.createCart();
             cartId = cartId._id.toString();
             let newUsuario = {
@@ -99,6 +100,7 @@ const inicializaPassport = () => {
                 bcrypt.genSaltSync(10)
               ),
               cartId,
+              avatar: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : 'https://via.placeholder.com/150',
             };
             const result = await userModel.create(newUsuario);
             return done(null, result);

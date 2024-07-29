@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     enum: ["admin", "user", "premium"],
     default: "user",
   },
+  avatar: {
+    type: String,
+    default: ''
+  },
   documents: [
     {
       name: {

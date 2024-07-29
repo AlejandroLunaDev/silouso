@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { getProducts } from '../../../services/products';
-import { updateProduct } from '../../../services/products';
+import { getProducts } from '../../../common/services/products';
+import { updateProduct } from '../../../common/services/products';
 
 export default function Settings() {
   const [products, setProducts] = useState([]);

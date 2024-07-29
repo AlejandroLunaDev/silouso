@@ -1,5 +1,5 @@
 import { ItemList } from "./ItemList";
-import { getProducts } from "../../../../services/products";
+import { getProducts } from "../../../../common/services/products";
 import { useEffect, useState } from "react";
 
 export default function ItemListContainer() {

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { getProducts } from "../../../services/products";
+import { getProducts } from "../../../common/services/products";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { LastItemList } from "./components/LastItemList";

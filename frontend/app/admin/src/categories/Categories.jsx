@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IoIosArrowForward, IoIosArrowBack, IoIosTrash } from "react-icons/io";
-import { createCategory } from '../../../services/categories/createCategory';
-import { createSubcategory } from '../../../services/categories/createSubCategory';
-import { getCategories } from '../../../services/categories/getCategories';
-import { deleteCategory } from '../../../services/categories/deleteCategory';
-import { updateCategory } from '../../../services/categories/updateCategory';
+import { createCategory, createSubcategory, deleteCategory, getCategories, updateCategory } from '../../../common/services/categories';
+
 
 export default function Categories() {
   const [category, setCategory] = useState(''); // Estado para la categoría principal

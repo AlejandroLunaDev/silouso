@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { createProduct } from '../../../../services/products';
+import { createProduct } from '../../../../common/services/products';
 import { FaDesktop,FaMouse, FaHeadphones, FaLaptop, FaWifi, FaHdd, FaPrint, FaArrowLeft, FaArrowRight,FaMicrochip } from 'react-icons/fa'; 
 
 import { AiOutlineUpload } from 'react-icons/ai';
-import { getCategories } from '../../../../services/categories/getCategories';
+import { getCategories } from '../../../../common/services/categories';
 
 const AddProduct = ({ onCancel, onAdd }) => {
   const [productData, setProductData] = useState({

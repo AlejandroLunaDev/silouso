@@ -15,8 +15,7 @@ export const loginGoogleUserCallback = async () => {
                 'Content-Type': 'application/json',
             },
         });         
-        const data = await response.json();
-        console.log(data);        
+        const data = await response.json();  
         return data;
     } catch (error) {        
         console.error(error);

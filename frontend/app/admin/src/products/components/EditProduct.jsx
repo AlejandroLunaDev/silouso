@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import { updateProduct, getProductById } from '../../../../services/products';
+import { updateProduct, getProductById } from '../../../../common/services/products';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 import { AiOutlineUpload } from 'react-icons/ai';

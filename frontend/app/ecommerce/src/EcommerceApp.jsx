@@ -1,15 +1,15 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import Home from './home/Home';
-import Login from '../../auth/Login';
-import UpdatePassword from '../../auth/components/UpdatePassword';
-import PasswordRecovery from '../../auth/components/PaswwordRecovery';
-import RegisterForm from '../../auth/components/RegisterForm';
+import Login from '../../common/auth/Login';
+import UpdatePassword from '../../common/auth/components/UpdatePassword';
+import PasswordRecovery from '../../common/auth/components/PaswwordRecovery';
+import RegisterForm from '../../common/auth/components/RegisterForm';
 import NavBar from './layout/navBar/NavBar';
 import ItemDetailContainer from './product/ItemDetailContainer';
 import Shop from './shop/Shop';
 
-export default function ShopApp() {
+export default function EcommerceApp() {
   const location = useLocation();
   const isHomeRoute = location.pathname === '/';
   return (
