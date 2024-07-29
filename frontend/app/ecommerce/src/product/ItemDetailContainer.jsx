@@ -11,6 +11,7 @@ export default function ItemDetailContainer() {
     const fetchProduct = async () => {
       try {
         const response = await getProductById(productId);
+        console.log('response', response);
         if (response && response.payload) {
           setProduct(response.payload); // Extrae payload aquí
         }

@@ -13,11 +13,19 @@ class Product {
   async getProductById(pid) {
     if (!mongoose.Types.ObjectId.isValid(pid)) throw new Error("pid invalid");
 
-    console.log('Searching for product with ID:', pid); // Depuración
-    const product = await this.productModel.findOne({ _id: pid }).populate('category').exec();
+ // Depuración
+    const product = await this.productModel.findOne({ _id: pid })
+      .populate({
+        path: 'category',
+        populate: {
+          path: 'parentCategory',
+          model: 'Category'
+        }
+      })
+      .exec();
     console.log('Found product:', product); // Depuración
     return product;
-}
+  }
 
   async addProduct(product) {
     return await productModel.create(product);
