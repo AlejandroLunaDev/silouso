@@ -2,84 +2,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
+import {useCart} from '../../common/hook/useCart';
 
-const ButtonCount = ({ onAdd, stock, initial = 1 }) => {
-  const [count, setCount] = useState(initial);
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loggedUser = localStorage.getItem('user');
-    if (loggedUser) {
-      setUser(JSON.parse(loggedUser));
-    }
-  }, []);
-
-  const mostrarAlerta = () => {
-    Toastify({
-      text: 'Producto Agregado al Carrito',
-      position: 'right',
-      gravity: 'bottom',
-      duration: 1500,
-      style: {
-        background: 'linear-gradient(to right, #00b09b, #96c93d)'
-      }
-    }).showToast();
-  };
-
-  const increment = () => {
-    if (count < stock) {
-      setCount(prevCount => prevCount + 1);
-    }
-  };
-
-  const decrement = () => {
-    if (count > 0) setCount(prevCount => prevCount - 1);
-  };
-
-  const handleAddToCart = () => {
-    onAdd(count);
-    mostrarAlerta();
-  };
-
-  return (
-    <div className='flex justify-between'>
-      <button
-        className='border rounded-sm flex items-center justify-center'
-        onClick={decrement}
-      >
-        -
-      </button>
-      <p className='text-[13px] border rounded-sm px-3 flex items-center'>
-        {count}
-      </p>
-      <button
-        className='border rounded-sm flex items-center justify-center'
-        onClick={increment}
-      >
-        +
-      </button>
-      {user ? (
-        <button
-          className='bg-[#61005D] rounded text-center text-white py-1 px-2'
-          onClick={handleAddToCart}
-        >
-          Agregar al carrito
-        </button>
-      ) : (
-        <button
-          className='bg-[#61005D] rounded text-center text-white py-1 px-2'
-          onClick={() => navigate('/login')}
-        >
-          Agregar al carrito
-        </button>
-      )}
-    </div>
-  );
-};
 
 export default function ItemDetail({ product }) {
   const {
@@ -90,10 +17,8 @@ export default function ItemDetail({ product }) {
     price,
     stock,
     description,
-    isAvailable,
-    isPromoted,
   } = product || {};
-
+  const {productId} = useParams();
   const [currentImage, setCurrentImage] = useState(thumbnails[0]);
   const [zoomImageCoordinates, setZoomImageCoordinates] = useState({
     x: 0,
@@ -102,18 +27,20 @@ export default function ItemDetail({ product }) {
   });
   const [showZoom, setShowZoom] = useState(false);
   const [hasStock, setHasStock] = useState(stock > 0);
+  const { addProductToCart } = useCart();
 
-  const handleOnAdd = (quantity) => {
-    const objProductToAdd = {
-      _id,
-      title,
-      price,
-      quantity,
-      thumbnails,
-      stock,
-    };
-    // Implementa la lógica para agregar al carrito aquí
-  };
+  const handleOnAdd = () => {
+    addProductToCart(productId); // Solo pasar el ID del producto
+    Toastify({
+        text: "Producto agregado al carrito",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#61005D",
+    }).showToast();
+};
+
 
   const handleThumbnailClick = (image) => {
     setCurrentImage(image);
@@ -205,7 +132,9 @@ export default function ItemDetail({ product }) {
           </article>
           <div className="w-60 mt-8">
             {hasStock ? (
-              <ButtonCount onAdd={handleOnAdd} stock={stock} />
+              <button onClick={handleOnAdd} className='bg-[#61005D] text-white rounded px-2 py-1'>
+                Agregar
+              </button>
             ) : (
               <div className="bg-red-500 text-white rounded px-2 py-1">
                 No hay stock de este producto

@@ -1,14 +1,13 @@
-
-import AuthProvider from "../app/common/auth/context/AuthProvider";
-import AppRoutes from "./routes/AppRoutes";
-
+import AuthProvider from '../app/common/auth/context/AuthProvider';
+import CartProvider from '../app/ecommerce/src/common/context/CartProvider';
+import AppRoutes from './routes/AppRoutes';
 
 export default function App() {
   return (
     <AuthProvider>
-
-      <AppRoutes />
+      <CartProvider>
+        <AppRoutes />
+      </CartProvider>
     </AuthProvider>
-  
-  )
+  );
 }

@@ -1,8 +1,9 @@
-import UserHome from "./components/UserHome";
 
+import User from "../../common/components/User";
 import { NavLink } from "react-router-dom";
 
 import NavList from "./components/NavList";
+import CartWidget from "../../common/components/CartWidget";
 
 export default function NavBarHome() {
   return (
@@ -15,9 +16,10 @@ export default function NavBarHome() {
       <div>
         <NavList />
       </div>
-      <NavLink to="/login">
-        <UserHome />
-      </NavLink>
+      <div>
+        <CartWidget />
+      </div>
+        <User />
     </nav>
   );
 }

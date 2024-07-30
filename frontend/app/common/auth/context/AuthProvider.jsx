@@ -14,16 +14,15 @@ export const AuthContext = createContext();
 
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState({ token: Cookies.get('coderCookie') });
+  const [user, setUser] = useState(null);
 
- 
+
   useEffect(() => {
     const token = Cookies.get('coderCookie');
  // Añadir un log para verificar el token
     if (token) {
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
-      setUser({ token }); // Guardamos el token en el estado de usuario
+      setUser({ decodedToken }); // Guardamos el token en el estado de usuario
     }
   }, []);
 
@@ -31,7 +30,6 @@ export default function AuthProvider({ children }) {
     try {
       const response = await loginUser(credentials);
       const data = await response.json(); // Esto es innecesario y provoca el error
-      console.log(data)
       return data;
     } catch (error) {
       console.error('Login error in AuthProvider:', error);
@@ -41,9 +39,9 @@ export default function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const response = await logOutUser();
-      const data = await response.json();
-      return data;
+      await logOutUser();
+      setUser(null);
+  
     } catch (error) {
       console.error('Logout error in AuthProvider:', error);
       return { status: 'error', message: 'Logout failed' };
@@ -116,6 +114,7 @@ export default function AuthProvider({ children }) {
         recoveredPassword,
         updatePasswordOk,
         user,
+        decodedToken: user?.decodedToken,
       }}
     >
       {children}

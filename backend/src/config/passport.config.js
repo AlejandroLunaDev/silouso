@@ -86,8 +86,8 @@ const inicializaPassport = () => {
       },
       async (token, tokenRefresh, profile, done) => {
         try {
-          const user = await userService.getUserByEmail(profile._json.email);
-          if (!user) {
+          const usuario = await userService.getUserByEmail(profile._json.email);
+          if (!usuario) {
             let cartId = await cartService.createCart();
             cartId = cartId._id.toString();
             let newUsuario = {
