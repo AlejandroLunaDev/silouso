@@ -60,7 +60,7 @@ export default function Login() {
   };
 
   return (
-    <section className='w-full h-screen flex justify-center items-center mt-14'>
+    <section className='w-full h-screen flex justify-center items-center mt-14 '>
       <div className='bg-white shadow-lg p-8 rounded-lg w-2/4 flex flex-col justify-center'>
         {formik.errors.general && <p className='text-red-500 mb-4'>{formik.errors.general}</p>}
         <h2 className='text-2xl font-extrabold text-center text-[#61005D] mb-4'>Iniciar Sesión</h2>

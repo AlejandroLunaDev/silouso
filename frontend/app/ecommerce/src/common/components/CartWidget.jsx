@@ -1,16 +1,45 @@
 import { TiShoppingCart } from 'react-icons/ti';
 import { useCart } from '../hook/useCart';
 import { Drawer } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Cart from '../../cart/Cart';
+import { ThreeDots } from 'react-loader-spinner'; // Importa el spinner que prefieras
 
 export default function CartWidget() {
     const { cart, loading } = useCart();
     const [open, setOpen] = useState(false);
+    const [isCartUpdated, setIsCartUpdated] = useState(false); 
     const isHomePage = location.pathname === '/';
     const textColor = isHomePage ? 'text-white' : 'text-[#61005D]';
+console.log(cart)
+    useEffect(() => {
+        if (isCartUpdated) {
+            setOpen(true);
+            setIsCartUpdated(false); // Resetear el estado después de actualizar
+        }
+    }, [cart, isCartUpdated]);
+    
+  if (cart === null) {
+    return null;
+}
 
-    if (loading) return <p>Loading...</p>;
+    if (loading ) {
+        return (
+            <div className="flex justify-center items-center">
+            <ThreeDots 
+                height="50" 
+                width="50" 
+                radius="9"
+                color="#61005D" 
+                ariaLabel="three-dots-loading"
+                visible={true}
+                />
+        </div>
+    );
+}
+
+
+
 
     const productsCount = cart?.payload?.products?.length || 0;
 
@@ -30,7 +59,7 @@ export default function CartWidget() {
                 anchor="right"
                 onClose={() => setOpen(false)}
             >
-                <Cart cart={cart} setOpen={setOpen} />
+                <Cart cart={cart} setOpen={setOpen} setIsCartUpdated={setIsCartUpdated} />
             </Drawer>
         </div>
     );

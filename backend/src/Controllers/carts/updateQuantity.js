@@ -1,37 +1,48 @@
+const mongoose = require('mongoose');
+const { cartService, productService } = require("../../services/index.service");
+
 module.exports = async (req, res) => {
-  if (!req.body.quantity)
-    return res.status(400).json({ error: "Tiene que ingresar quantity" });
+  const { quantity } = req.body;
+  const { pid, cid } = req.params;
+
+  if (!quantity)
+    return res.status(400).json({ error: "Debe ingresar la cantidad (quantity)" });
 
   try {
-    const { pid, cid } = req.params;
     if (!mongoose.Types.ObjectId.isValid(pid))
-      return res.status(400).json({ error: "Pid invalid" });
+      return res.status(400).json({ error: "ID de producto inválido (pid)" });
     if (!mongoose.Types.ObjectId.isValid(cid))
-      return res.status(400).json({ error: "Cid invalid" });
-    const existsProduct = await productsModels.findById(pid);
+      return res.status(400).json({ error: "ID de carrito inválido (cid)" });
+
+    const existsProduct = await productService.getById(pid);
     if (!existsProduct)
-      return res.status(400).json({ error: "Product not found" });
-    const existsCart = await cartsModels.findById(cid);
-    if (!existsCart) return res.status(400).json({ error: "Cart not found" });
+      return res.status(404).json({ error: "Producto no encontrado" });
 
+    const existsCart = await cartService.getById(cid);
+    if (!existsCart)
+      return res.status(404).json({ error: "Carrito no encontrado" });
+
+    console.log('Carrito encontrado:', existsCart);
+
+    // Busca el producto en el carrito
     const productModify = existsCart.products.find(
-      product => product.product.toJSON() === req.params.pid
-    );
-    if (!productModify)
-      return res.status(400).json({ error: "Product no exist on cart" });
-    productModify.quantity = +req.body.quantity;
-    await cartsModels.updateOne(
-      { _id: req.params.cid },
-      {
-        products: existsCart.products
-      }
+      product => product.product._id.toString() === pid
     );
 
-    return res
-      .status(201)
-      .send({ status: "OK", msg: "Product quantity modified" });
+    console.log('Producto encontrado en el carrito:', productModify);
+
+    if (!productModify)
+      return res.status(404).json({ error: "El producto no existe en el carrito" });
+
+    // Actualiza la cantidad del producto
+    productModify.quantity = +quantity;
+    
+    // Actualiza el carrito con los productos modificados
+    await cartService.update(cid, existsCart.products);
+
+    return res.status(200).json({ status: "OK", msg: "Cantidad del producto modificada" });
   } catch (error) {
     req.logger.error(error.message);
-    return res.sendServerError(error.message);
+    return res.status(500).json({ error: "Error del servidor" });
   }
 };

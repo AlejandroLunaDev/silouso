@@ -9,7 +9,6 @@ module.exports = async (req, res) => {
     const { title, description, price, code, stock, category } = req.body;
     const files = req.files['identification'];
 
-    console.log('Datos recibidos en el backend:', { title, description, price, code, stock, category });
 
     if (!files || files.length === 0) {
       throw new Error("No files uploaded");

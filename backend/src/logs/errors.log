@@ -299,3 +299,14 @@ error: null
 error: null
 error: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
 error: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+error: mongoose is not defined
+error: Cannot find module '../../daos/cart.dao'
+Require stack:
+- C:\Users\aleja\Documents\GitHub\silousotec\backend\src\controllers\carts\updateQuantity.js
+- C:\Users\aleja\Documents\GitHub\silousotec\backend\src\controllers\carts.controller.js
+- C:\Users\aleja\Documents\GitHub\silousotec\backend\src\routes\cart.routes.js
+- C:\Users\aleja\Documents\GitHub\silousotec\backend\src\app.js
+error: CartsService is not defined
+error: productService.getProductById is not a function
+error: productService.getProductById is not a function
+error: productService.getProductById is not a function
