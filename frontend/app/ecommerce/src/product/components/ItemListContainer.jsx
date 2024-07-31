@@ -20,10 +20,10 @@ export default function ItemListContainer() {
         }
     };
   return (
-    <div className="" >
+    <div className="mt-5 " >
         <div className="">
-        <header className="">
-            <h1 className="text-3xl font-bold text-[#61005D]">Nuestros productos</h1>
+        <header className="px-2">
+            <h1 className="text-3xl text-end font-bold text-[#61005D]">Tienda</h1>
         </header>
         <ItemList products={products} className="" />
         </div>
