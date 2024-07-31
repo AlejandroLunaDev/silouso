@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from 'react';
 import { useAuth } from '../../../../common/auth/hook/useAuth'; // Ajusta la ruta según tu estructura
-import { getCartById,addToCart,deleteProductCart,updateQuantity } from '../../services/cart';
+import { getCartById,addToCart,deleteProductCart,updateQuantity,deleteProductsCart } from '../../services/cart';
 
 export const CartContext = createContext();
 
@@ -55,10 +55,19 @@ export default function CartProvider({ children }) {
             console.error('Error al actualizar la cantidad del producto:', error);
         }
     };
+
+    const deleteAllProducts = async () => {
+        try {
+            await deleteProductsCart(decodedToken.user.cartId);
+            await getCart(decodedToken.user.cartId);
+        } catch (error) {
+            console.error('Error al vaciar el carrito:', error);
+        }
+    };
     
 
     return (
-        <CartContext.Provider value={{ cart, getCart, loading, addProductToCart,deleteProduct,updateQuantityProduct }}>
+        <CartContext.Provider value={{ cart, getCart, loading, addProductToCart,deleteProduct,updateQuantityProduct,deleteAllProducts }}>
             {children}
         </CartContext.Provider>
     );
