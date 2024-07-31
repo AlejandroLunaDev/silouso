@@ -6,11 +6,13 @@ const { v4: uuidv4 } = require("uuid");
 module.exports = async (req, res) => {
   try {
     const cid = req.params.cid;
-    const email = req.body.email; // Obtener el email del cuerpo de la solicitud
-    let sinStock = [];
+    const email = req.body.email; 
 
     // Recuperar el carrito
     const cart = await cartService.getById(cid);
+
+    // Variable para productos sin stock
+    const sinStock = []; 
 
     // Procesar los productos en el carrito
     for (const productCart of cart.products) {
@@ -50,7 +52,7 @@ module.exports = async (req, res) => {
     if (purchasedProducts.length > 0) {
       const ticketData = {
         code: uuidv4(),
-        purchaser: email, // Asignar el email del comprador
+        purchaser: email, 
         amount: purchasedProducts.reduce(
           (total, product) => total + product.quantity * product.price,
           0
@@ -64,20 +66,31 @@ module.exports = async (req, res) => {
 
       // Enviar correo
       const result = await transport.sendMail({
-        from: "SiLoUsotec <alejandrolunadev@gmail.com>",
+        from: "SiLoUsotec <silousotec@gmail.com>",
         to: email,
         subject: "Orden de compra",
         html: `
-        <div>
-            <h1>Ticket: ${ticketResponse.code}</h1>
-            <h2>Products:</h2>
-            <ul>
+        <div style="font-family: Arial, sans-serif; color: #333; margin: 0; padding: 0;">
+          <div style="text-align: center; padding: 20px;">
+            <img src="https://example.com/brand.svg" alt="Logo" style="width: 150px; height: auto;">
+          </div>
+          <div style="padding: 20px;">
+            <h1 style="color: #2D3748;">Gracias por su compra, ${email}!</h1>
+            <h2 style="color: #4A5568;">Ticket: ${ticketResponse.code}</h2>
+            <h3 style="color: #4A5568;">Productos comprados:</h3>
+            <ul style="list-style-type: none; padding: 0;">
               ${purchasedProducts.map(product => `
-                <li>${product.name} - ${product.quantity} x $${product.price} - $${product.quantity * product.price}</li>
+                <li style="border-bottom: 1px solid #E2E8F0; padding: 10px 0;">
+                  <strong>${product.name}</strong> - ${product.quantity} x $${product.price} - $${product.quantity * product.price}
+                </li>
               `).join('')}
             </ul>
-            <h2>Total: $${ticketResponse.amount}</h2>
-            <h2>Gracias por su compra</h2>
+            <h3 style="color: #4A5568;">Total: $${ticketResponse.amount}</h3>
+            <p style="color: #4A5568;">Gracias por su compra. Si tiene alguna pregunta, no dude en contactarnos.</p>
+            <footer style="margin-top: 20px; text-align: center;">
+              <p style="color: #CBD5E0;">© 2024 SiLoUsotec. Todos los derechos reservados.</p>
+            </footer>
+          </div>
         </div>
         `
       });
