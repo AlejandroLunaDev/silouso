@@ -2,7 +2,7 @@
 import User from "../../common/components/User";
 import { NavLink } from "react-router-dom";
 
-import NavList from "./components/NavList";
+import NavList from "../../common/components/NavList";
 import CartWidget from "../../common/components/CartWidget";
 
 export default function NavBarHome() {

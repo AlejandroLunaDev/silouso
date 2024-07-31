@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from 'react';
 import { useAuth } from '../../../../common/auth/hook/useAuth'; // Ajusta la ruta según tu estructura
-import { getCartById,addToCart,deleteProductCart,updateQuantity,deleteProductsCart } from '../../services/cart';
+import { getCartById, addToCart, deleteProductCart, updateQuantity, deleteProductsCart, purchase } from '../../services/cart';
 
 export const CartContext = createContext();
 
@@ -23,14 +23,13 @@ export default function CartProvider({ children }) {
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
         } finally {
-            setLoading(false); // Cambia el estado de carga
+            setLoading(false);
         }
     };
 
     const addProductToCart = async (productId) => {
         try {
             await addToCart(decodedToken.user.cartId, productId);
-       
             await getCart(decodedToken.user.cartId);
         } catch (error) {
             console.error('Error al agregar el producto:', error);
@@ -40,7 +39,6 @@ export default function CartProvider({ children }) {
     const deleteProduct = async (productId) => {
         try {
             await deleteProductCart(decodedToken.user.cartId, productId);
-
             await getCart(decodedToken.user.cartId);
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
@@ -65,9 +63,17 @@ export default function CartProvider({ children }) {
         }
     };
     
+    const purchaseCart = async () => {
+        try {
+            await purchase(decodedToken.user.cartId, decodedToken.user.email); // Pasar el email aquí
+            await getCart(decodedToken.user.cartId);
+        } catch (error) {
+            console.error('Error al realizar la compra:', error);
+        }
+    };
 
     return (
-        <CartContext.Provider value={{ cart, getCart, loading, addProductToCart,deleteProduct,updateQuantityProduct,deleteAllProducts }}>
+        <CartContext.Provider value={{ cart, getCart, loading, addProductToCart, deleteProduct, updateQuantityProduct, deleteAllProducts, purchaseCart }}>
             {children}
         </CartContext.Provider>
     );

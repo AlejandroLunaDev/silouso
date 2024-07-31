@@ -11,7 +11,7 @@ export default function CartWidget() {
     const [isCartUpdated, setIsCartUpdated] = useState(false); 
     const isHomePage = location.pathname === '/';
     const textColor = isHomePage ? 'text-white' : 'text-[#61005D]';
-console.log(cart)
+ 
     useEffect(() => {
         if (isCartUpdated) {
             setOpen(true);
@@ -19,40 +19,35 @@ console.log(cart)
         }
     }, [cart, isCartUpdated]);
     
-  if (cart === null) {
-    return null;
-}
+    if (cart === null) {
+        return null;
+    }
 
-    if (loading ) {
+    if (loading) {
         return (
             <div className="flex justify-center items-center">
-            <ThreeDots 
-                height="50" 
-                width="50" 
-                radius="9"
-                color="#61005D" 
-                ariaLabel="three-dots-loading"
-                visible={true}
+                <ThreeDots 
+                    height="50" 
+                    width="50" 
+                    radius="9"
+                    color="#61005D" 
+                    ariaLabel="three-dots-loading"
+                    visible={true}
                 />
-        </div>
-    );
-}
-
-
-
+            </div>
+        );
+    }
 
     const productsCount = cart?.payload?.products?.length || 0;
 
     return (
         <div className='flex gap-1'>
             <button onClick={() => setOpen(true)}>
-                <TiShoppingCart className={`	text-3xl cursor-pointer ${textColor}`} />
+                <TiShoppingCart className={`text-3xl cursor-pointer ${textColor}`} />
             </button>
-            {productsCount > 0 && (
-                <div className='bg-[#61005D] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs'>
-                    {productsCount}
-                </div>
-            )}
+            <div className='bg-[#61005D] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs'>
+                {productsCount}
+            </div>
             <Drawer
                 style={{ zIndex: 999 }}
                 open={open}

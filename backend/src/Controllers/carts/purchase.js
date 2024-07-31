@@ -6,11 +6,11 @@ const { v4: uuidv4 } = require("uuid");
 module.exports = async (req, res) => {
   try {
     const cid = req.params.cid;
+    const email = req.body.email; // Obtener el email del cuerpo de la solicitud
     let sinStock = [];
 
     // Recuperar el carrito
     const cart = await cartService.getById(cid);
-
 
     // Procesar los productos en el carrito
     for (const productCart of cart.products) {
@@ -46,32 +46,26 @@ module.exports = async (req, res) => {
       }
     }
 
-   
-
     // Crear el ticket si hay productos comprados
     if (purchasedProducts.length > 0) {
       const ticketData = {
         code: uuidv4(),
-        purchaser: req.query.email,
+        purchaser: email, // Asignar el email del comprador
         amount: purchasedProducts.reduce(
           (total, product) => total + product.quantity * product.price,
           0
         ),
         products: purchasedProducts
       };
-   
-   
 
-      const ticket = await ticketService.create(ticketData); 
+      const ticket = await ticketService.create(ticketData);
 
-
-      const ticketResponse = new TicketResponse(ticket); 
-   
+      const ticketResponse = new TicketResponse(ticket);
 
       // Enviar correo
       const result = await transport.sendMail({
         from: "SiLoUsotec <alejandrolunadev@gmail.com>",
-        to: req.query.email,
+        to: email,
         subject: "Orden de compra",
         html: `
         <div>

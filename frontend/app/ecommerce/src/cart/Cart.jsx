@@ -7,12 +7,15 @@ import { formatNumber } from '../../../common/helper/formatNumeber';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete'; // Icono de tacho de basura
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart({ cart, setOpen }) {
     const { deleteProduct, updateQuantityProduct, deleteAllProducts } = useCart();
+    const navigate = useNavigate();
 
     const handleCheckout = () => {
         setOpen(false);
+        navigate('/purchase');
     };
 
     const handleDelete = async (productId) => {

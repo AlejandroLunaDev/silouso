@@ -310,3 +310,4 @@ error: CartsService is not defined
 error: productService.getProductById is not a function
 error: productService.getProductById is not a function
 error: productService.getProductById is not a function
+error: tickets validation failed: purchaser: Path `purchaser` is required.

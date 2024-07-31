@@ -1,4 +1,5 @@
 import CartWidget from "../../common/components/CartWidget";
+import NavList from "../../common/components/NavList";
 import User from "../../common/components/User";
 import { NavLink } from "react-router-dom";
 
@@ -10,6 +11,9 @@ export default function NavBar() {
           <img src="/brand.svg" alt="silouso-brand" className="h-20" />
         </figure>
       </NavLink>
+      <div>
+        <NavList />
+      </div>
       <div className="">
         <CartWidget />
       </div>

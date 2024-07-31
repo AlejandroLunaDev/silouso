@@ -8,6 +8,7 @@ import RegisterForm from '../../common/auth/components/RegisterForm';
 import NavBar from './layout/navBar/NavBar';
 import ItemDetailContainer from './product/ItemDetailContainer';
 import Shop from './shop/Shop';
+import Purchase from './purchase/Purchase';
 
 export default function EcommerceApp() {
   const location = useLocation();
@@ -27,6 +28,7 @@ export default function EcommerceApp() {
         <Route path='/resetpassword' element={<UpdatePassword />} />
         <Route path='/product/:productId' element={<ItemDetailContainer />} />
         <Route path='/shop' element={<Shop />} />
+        <Route path='/purchase' element={<Purchase />} />
 
         </Routes>
     </div>
