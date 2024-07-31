@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 import {useCart} from '../../common/hook/useCart';
+import { formatNumber } from '../../../../common/helper/formatNumeber';
 
 
 export default function ItemDetail({ product }) {
@@ -120,7 +121,7 @@ export default function ItemDetail({ product }) {
                 <p>{_id}</p>
               </div>
             </header>
-            <p className="font-bold text-3xl text-[#61005D] mb-4">$ {price}</p>
+            <p className="font-bold text-3xl text-[#61005D] mb-4">$ {formatNumber(price)}</p>
             <h3 className="font-bold">Categorías</h3>
             <p className="capitalize">
               {category?.parentCategory?.name

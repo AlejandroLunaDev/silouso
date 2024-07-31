@@ -7,14 +7,14 @@ export default function QuantitySelector({ quantity, onIncrease, onDecrease }) {
             <button
                 onClick={onDecrease}
                 disabled={quantity <= 1}
-                className="p-2 bg-[#61005D] text-white rounded hover:border-[#61005D] hover:bg-transparent hover:text-[#61005D] hover:border"
+                className="p-2 bg-[#61005D] text-white rounded cursor-pointer"
             >
                 <FaMinus size={14} />
             </button>
             <span className="text-lg font-medium border border-[#61005D] rounded px-10">{quantity}</span>
             <button
                 onClick={onIncrease}
-                className="p-2 bg-[#61005D] text-white rounded hover:border-[#61005D] hover:bg-transparent hover:text-[#61005D] hover:border"
+                className="p-2 bg-[#61005D] text-white rounded cursor-pointer"
             >
                 <FaPlus size={14} />
             </button>

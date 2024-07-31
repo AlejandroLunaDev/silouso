@@ -1,24 +1,7 @@
 const BASE_URL = 'http://localhost:8080';
 
-export const updateProduct = async (productId, productData, files) => {
+export const updateProduct = async (productId, formData) => {
   try {
-    const formData = new FormData();
-    
-    // Agregar los campos de producto al FormData
-    formData.append('title', productData.title);
-    formData.append('description', productData.description);
-    formData.append('price', productData.price);
-    formData.append('stock', productData.stock);
-    formData.append('category', productData.category._id);
-    formData.append('isPromoted', productData.isPromoted ? 'true' : 'false');
-
-    // Agregar las imágenes al FormData
-    if (files && files.length > 0) {
-      files.forEach(file => {
-        formData.append('identification', file);
-      });
-    }
-
     const response = await fetch(`${BASE_URL}/api/products/${productId}`, {
       method: 'PUT',
       body: formData,

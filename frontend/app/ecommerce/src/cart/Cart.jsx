@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { useCart } from '../common/hook/useCart';
-import { FaTrash } from 'react-icons/fa';
-import { LiaTimesSolid } from 'react-icons/lia'; // Importa el icono de cierre
-import QuantitySelector from './components/QuantitySelector'; // Asegúrate de importar el nuevo componente
+import { LiaTimesSolid } from 'react-icons/lia';
+import QuantitySelector from './components/QuantitySelector';
+import { CiCircleRemove } from "react-icons/ci";
+import { formatNumber } from '../../../common/helper/formatNumeber'; 
 
 export default function Cart({ cart, setOpen }) {
     const { deleteProduct, updateQuantityProduct } = useCart();
@@ -24,9 +25,12 @@ export default function Cart({ cart, setOpen }) {
             await updateQuantityProduct(productId, quantity - 1);
         }
     };
-
+    const descount = 0;
     const total = cart.payload?.products?.reduce((sum, product) => sum + (product.product.price * product.quantity), 0) || 0;
-    const subtotal = total;
+    const subtotal = total - descount;
+
+
+
 
     return (
         <section className="p-4 w-96">
@@ -37,21 +41,21 @@ export default function Cart({ cart, setOpen }) {
                 </button>
             </header>
             {cart?.payload?.products?.length > 0 ? (
-                <div className="">
-                    <div className='max-h-[300px] overflow-y-auto'>
+                <div className="flex flex-col  ">
+                    <div className='max-h-[500px] overflow-y-auto'>
                         {cart.payload.products.map((product, index) => (
                             <div key={index} className="flex items-center gap-4 py-3">
-                                <div className='relative'>
-                                    <img src={product.product.thumbnails[0]} alt={product.product.title} className="w-28 h-28 object-cover" />
-                                    <FaTrash
-                                        className='text-red-600 cursor-pointer absolute top-0 left-0 m-2'
-                                        size={20}
+                                <div className='relative flex'>
+                                    <CiCircleRemove
+                                        className=' cursor-pointer'
+                                        size={25}
                                         onClick={() => handleDelete(product.product._id)}
                                     />
+                                    <img src={product.product.thumbnails[0]} alt={product.product.title} className="w-28 h-28 object-cover" />
                                 </div>
                                 <div className="ml-4 flex-1">
                                     <h3 className="text-sm font-medium">{product.product.title}</h3>
-                                    <p className="text-md font-bold text-gray-600">${product.product.price}</p>
+                                    <p className="text-md py-1 font-bold text-gray-600">${formatNumber(product.product.price)}</p>
                    
                                     <QuantitySelector
                                         quantity={product.quantity}
@@ -62,19 +66,31 @@ export default function Cart({ cart, setOpen }) {
                             </div>
                         ))}
                     </div>
-                    <div className="mt-4">
-                        <p>SubTotal: ${subtotal}</p>
-                        <p>Total: ${total}</p>
+                    <article>
+
+                    <div className="mt-4 flex flex-col ">
+                        <div className='flex py-2 justify-between border-y'>
+                        <p>SubTotal:</p>
+                        <p>${formatNumber(subtotal)}</p>
+                        </div>
+                        <div className='flex py-2 font-bold text-gray-600 justify-between border-b'>
+                        <p>Total:</p>
+                        <p> ${formatNumber(total)}</p>
+                        </div>
                     </div>
                     <button
                         onClick={handleCheckout}
                         className="w-full bg-[#61005D] text-white py-2 mt-4 rounded"
                     >
-                        Proceder al Checkout
+                        Comprar ahora
                     </button>
+                    </article>
                 </div>
             ) : (
-                <p>Tu carrito está vacío.</p>
+                <div className='flex items-center justify-center h-screen'>
+
+                    <p className='text-[#61005D] font-semibold'>Tu carrito está vacío.</p>
+                </div>
             )}
         </section>
     );

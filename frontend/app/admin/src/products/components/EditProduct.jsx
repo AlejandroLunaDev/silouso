@@ -28,42 +28,47 @@ const EditProduct = ({ productId, onCancel, onSave }) => {
 
   const handleImageUpload = e => {
     const files = Array.from(e.target.files);
-  
+
     if (imageToReplace !== null) {
-      // Reemplazar imagen existente
       const updatedThumbnails = product.thumbnails.map((img, index) =>
         index === imageToReplace ? URL.createObjectURL(files[0]) : img
       );
       setProduct({ ...product, thumbnails: updatedThumbnails });
       setImageToReplace(null);
     } else {
-      // Añadir nuevas imágenes
       setNewImages([...newImages, ...files]);
     }
   };
-  
 
   const handleSave = async () => {
     if (!product) {
       console.error('Product is not defined');
       return;
     }
-  
+
+    console.log('Product:', product);
+    console.log('Category:', product.category);
+
+    if (!product.category || !product.category._id) {
+      console.error('Category ID is not defined');
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('title', product.title);
       formData.append('description', product.description);
       formData.append('price', product.price);
       formData.append('stock', product.stock);
-      formData.append('category', product.category);
-  
-      // Agregar archivos al FormData
+      formData.append('category', product.category._id);
+      formData.append('isPromoted', product.isPromoted ? 'true' : 'false');
+
       newImages.forEach((file, index) => {
         formData.append('images', file, `image${index}.jpg`);
       });
-  
+
       await updateProduct(product._id, formData);
-  
+
       Toastify({
         text: 'Producto Actualizado',
         gravity: 'bottom',
@@ -85,10 +90,6 @@ const EditProduct = ({ productId, onCancel, onSave }) => {
       }).showToast();
     }
   };
-  
-  
-  
-  
 
   if (!product) {
     return <div>Cargando...</div>;
@@ -98,7 +99,6 @@ const EditProduct = ({ productId, onCancel, onSave }) => {
     <div className='flex flex-col w-full px-4 mt-4'>
       <h2 className='text-2xl font-bold mb-4'>Editar Producto</h2>
       <div className='w-full'>
-        {/* Campos de formulario para título, precio, stock, etc. */}
         <div className='mb-4'>
           <label className='block text-lg font-medium'>Título</label>
           <input
@@ -138,12 +138,12 @@ const EditProduct = ({ productId, onCancel, onSave }) => {
           <label className='block text-lg font-medium'>Categoría</label>
           <input
             type='text'
-            value={product.category}
-            onChange={e => setProduct({ ...product, category: e.target.value })}
+            value={product.category ? product.category.name : ''}
+            onChange={e => setProduct({ ...product, category: { ...product.category, name: e.target.value } })}
             className='w-full border rounded px-2 py-1'
           />
         </div>
-        
+
         <div className='mt-4'>
           <label className='block text-lg font-medium'>Imágenes del producto</label>
           <div className='flex gap-3'>
@@ -174,7 +174,7 @@ const EditProduct = ({ productId, onCancel, onSave }) => {
                 {newImages.map((image, index) => (
                   <div key={index} className='relative w-32 h-32 border border-gray-300 rounded overflow-hidden'>
                     <img
-                      src={image}
+                      src={URL.createObjectURL(image)}
                       alt={`New Image ${index}`}
                       className='object-contain w-full h-full'
                     />
