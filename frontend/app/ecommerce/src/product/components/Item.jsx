@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import { formatNumber } from "../../../../common/helper/formatNumeber";
 
 export function Item({ _id, thumbnails, title, price, category }) {
   return (
@@ -15,7 +16,7 @@ export function Item({ _id, thumbnails, title, price, category }) {
         <h3 className="text-sm font-bold hover:text-[#61005D] mt-6">
           {title}
         </h3>
-        <p className="font-semibold text-[#61005D]">$ {price}</p>
+        <p className="font-semibold text-[#61005D]">$ {formatNumber(price)}</p>
       </div>
       </Link>
     </article>

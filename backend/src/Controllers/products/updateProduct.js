@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   try {
     const { title, description, price, stock, category, isPromoted } = req.body;
     const pid = req.params.pid;
-    const files = req.files['identification']; 
+    const files = req.files ? req.files['identification'] : undefined; 
 
     if (!title || !description || !price || !stock || !category) {
       return res.sendUserError("Faltan datos");

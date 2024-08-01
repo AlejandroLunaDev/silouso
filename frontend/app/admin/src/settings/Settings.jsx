@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { getProducts } from '../../../common/services/products';
-import { updateProduct } from '../../../common/services/products';
+import { getProducts, updateProduct } from '../../../common/services/products';
 
 export default function Settings() {
   const [products, setProducts] = useState([]);
@@ -17,8 +16,7 @@ export default function Settings() {
       if (response) {
         const allProducts = response.products;
         setProducts(allProducts);
-        
-        // Encontrar el producto que está promocionado
+
         const promotedProduct = allProducts.find(p => p.isPromoted);
         setSelectedProduct(promotedProduct || null);
       } else {
@@ -31,19 +29,44 @@ export default function Settings() {
 
   const handleSelectProduct = async (selectedOption) => {
     const product = products.find(p => p._id === selectedOption.value);
-
-    // Actualizar el producto seleccionado para poner isPromoted en true
+  
     try {
+      // Si hay un producto seleccionado actualmente, revertir su estado de promoción
       if (selectedProduct) {
-        // Revertir el estado del producto actualmente promocionado
-        await updateProduct(selectedProduct._id, { ...selectedProduct, isPromoted: false });
+        const formData = new FormData();
+        formData.append('title', selectedProduct.title);
+        formData.append('description', selectedProduct.description);
+        formData.append('price', selectedProduct.price);
+        formData.append('stock', selectedProduct.stock);
+        formData.append('category', selectedProduct.category._id); // Asegurarse de que category sea una cadena
+        formData.append('isPromoted', JSON.stringify(false));
+        
+        // Agregar thumbnails
+        selectedProduct.thumbnails.forEach((thumbnail, index) => {
+          formData.append(`thumbnails[${index}]`, thumbnail);
+        });
+  
+        await updateProduct(selectedProduct._id, formData);
       }
+  
+      // Actualizar el nuevo producto seleccionado para poner isPromoted en true
+      const formData = new FormData();
+      formData.append('title', product.title);
+      formData.append('description', product.description);
+      formData.append('price', product.price);
+      formData.append('stock', product.stock);
+      formData.append('category', product.category._id); // Asegurarse de que category sea una cadena
+      formData.append('isPromoted', JSON.stringify(true));
       
-      const updatedProduct = { ...product, isPromoted: true };
-      await updateProduct(product._id, updatedProduct);
-
+      // Agregar thumbnails
+      product.thumbnails.forEach((thumbnail, index) => {
+        formData.append(`thumbnails[${index}]`, thumbnail);
+      });
+  
+      await updateProduct(product._id, formData);
+  
       // Actualizar el estado con el nuevo producto promocionado
-      setSelectedProduct(updatedProduct);
+      setSelectedProduct(product);
       fetchProducts(); // Refrescar la lista de productos
     } catch (error) {
       console.error('Error updating product:', error);
@@ -52,11 +75,24 @@ export default function Settings() {
 
   const handleRemoveProduct = async () => {
     if (selectedProduct) {
-      // Revertir el campo isPromoted a false
       try {
-        await updateProduct(selectedProduct._id, { ...selectedProduct, isPromoted: false });
+        const formData = new FormData();
+        formData.append('title', selectedProduct.title);
+        formData.append('description', selectedProduct.description);
+        formData.append('price', selectedProduct.price);
+        formData.append('stock', selectedProduct.stock);
+        formData.append('category', selectedProduct.category._id); // Asegurarse de que category sea una cadena
+        formData.append('isPromoted', JSON.stringify(false));
+
+        // Agregar thumbnails
+        selectedProduct.thumbnails.forEach((thumbnail, index) => {
+          formData.append(`thumbnails[${index}]`, thumbnail);
+        });
+
+        await updateProduct(selectedProduct._id, formData);
+
         setSelectedProduct(null);
-        fetchProducts(); // Refrescar la lista de productos
+        fetchProducts();
       } catch (error) {
         console.error('Error updating product:', error);
       }

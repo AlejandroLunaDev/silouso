@@ -24,7 +24,7 @@ export default function EcommerceApp() {
       {!isHomeRoute && <NavBar />}
       {!isHomeRoute && (
         <header className="w-full flex tracking-wide mt-28">
-          <div className="w-1/6"></div>
+          <div className="w-2/6"></div>
           <SubNavBar />
         </header>
       )}
