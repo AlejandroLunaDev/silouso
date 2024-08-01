@@ -9,6 +9,7 @@ import NavBar from './layout/navBar/NavBar';
 import ItemDetailContainer from './product/ItemDetailContainer';
 import Shop from './shop/Shop';
 import Purchase from './purchase/Purchase';
+import SubNavBar from './layout/subNavBar/SubNavBar';
 
 export default function EcommerceApp() {
   const location = useLocation();
@@ -20,7 +21,11 @@ export default function EcommerceApp() {
         <Route path='/' element={<Home />} />
       </Routes>
         {!isHomeRoute && <NavBar />}
-        
+        <header className="w-full flex tracking-wide mt-28   ">
+        <div className="w-1/6">
+        </div>
+        <SubNavBar/>
+        </header>
         <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<RegisterForm />} />

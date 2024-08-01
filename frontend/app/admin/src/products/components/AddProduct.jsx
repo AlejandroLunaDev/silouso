@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createProduct } from '../../../../common/services/products';
-import { FaDesktop,FaMouse, FaHeadphones, FaLaptop, FaWifi, FaHdd, FaPrint, FaArrowLeft, FaArrowRight,FaMicrochip } from 'react-icons/fa'; 
+import { FaDesktop,FaMouse, FaHeadphones, FaLaptop, FaWifi, FaHdd, FaPrint, FaArrowLeft, FaArrowRight,FaMicrochip } from 'react-icons/fa';
+import { LiaTvSolid } from "react-icons/lia"; 
+import { PiMemoryThin } from "react-icons/pi";
 
 import { AiOutlineUpload } from 'react-icons/ai';
 import { getCategories } from '../../../../common/services/categories';
@@ -98,13 +100,16 @@ const AddProduct = ({ onCancel, onAdd }) => {
   const iconMap = {
     'laptops': <FaLaptop />,
     'Periféricos': <FaMouse />,
-    'Monitores': <FaDesktop />,
+    'Monitores': <LiaTvSolid />,
     'Accesorios': <FaHeadphones />,
     'Redes': <FaWifi />,
     'Almacenamiento': <FaHdd />,
     'Impresoras': <FaPrint />,
     'Auriculares': <FaHeadphones />,
     'Componentes': <FaMicrochip />,
+    'Procesadores': <FaMicrochip />,
+    'Memorias': <PiMemoryThin />,
+    'PCs': <FaDesktop />,
   };
 
   const totalSteps = 5; 

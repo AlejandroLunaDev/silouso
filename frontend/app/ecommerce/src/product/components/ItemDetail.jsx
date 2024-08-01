@@ -1,13 +1,12 @@
-/* eslint-disable no-dupe-keys */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react';
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
-import {useCart} from '../../common/hook/useCart';
+import { useCart } from '../../common/hook/useCart';
 import { formatNumber } from '../../../../common/helper/formatNumeber';
-
+import { useAuth } from '../../../../common/auth/hook/useAuth';
 
 export default function ItemDetail({ product }) {
   const {
@@ -19,7 +18,8 @@ export default function ItemDetail({ product }) {
     stock,
     description,
   } = product || {};
-  const {productId} = useParams();
+  const { productId } = useParams();
+  const navigate = useNavigate(); // Hook to navigate programmatically
   const [currentImage, setCurrentImage] = useState(thumbnails[0]);
   const [zoomImageCoordinates, setZoomImageCoordinates] = useState({
     x: 0,
@@ -29,19 +29,25 @@ export default function ItemDetail({ product }) {
   const [showZoom, setShowZoom] = useState(false);
   const [hasStock, setHasStock] = useState(stock > 0);
   const { addProductToCart } = useCart();
+  const { user } = useAuth(); // Get the user from authentication context
 
   const handleOnAdd = () => {
-    addProductToCart(productId); // Solo pasar el ID del producto
-    Toastify({
+    if (!user) {
+      // If there is no user, redirect to login
+      navigate('/login');
+    } else {
+      // If user is authenticated, add the product to the cart
+      addProductToCart(productId);
+      Toastify({
         text: "Producto agregado al carrito",
         duration: 3000,
         close: true,
         gravity: "top",
         position: "right",
         backgroundColor: "#61005D",
-    }).showToast();
-};
-
+      }).showToast();
+    }
+  };
 
   const handleThumbnailClick = (image) => {
     setCurrentImage(image);
@@ -63,7 +69,7 @@ export default function ItemDetail({ product }) {
   };
 
   return (
-    <section className="w-full h-full flex justify-center items-center px-10">
+    <section className="w-full  flex justify-center mt-10 px-10">
       <section className="flex-none md:flex gap-2 items-center rounded-3xl shadow-xl border p-5 w-full">
         <article className="flex gap-4 w-1/2">
           <div className="flex-col items-center gap-4 flex">
@@ -133,7 +139,7 @@ export default function ItemDetail({ product }) {
           </article>
           <div className="w-60 mt-8">
             {hasStock ? (
-              <button onClick={handleOnAdd} className='bg-[#61005D] text-white rounded px-2 py-1'>
+              <button onClick={handleOnAdd} className='bg-[#61005D] text-white rounded px-6 py-2'>
                 Agregar
               </button>
             ) : (
