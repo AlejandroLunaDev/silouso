@@ -14,19 +14,21 @@ import SubNavBar from './layout/subNavBar/SubNavBar';
 export default function EcommerceApp() {
   const location = useLocation();
   const isHomeRoute = location.pathname === '/';
+
   return (
-    <div className=''>
+    <div>
       <Routes>
         <Route path='/home' element={<Navigate to='/' />} />
         <Route path='/' element={<Home />} />
       </Routes>
-        {!isHomeRoute && <NavBar />}
-        <header className="w-full flex tracking-wide mt-28   ">
-        <div className="w-1/6">
-        </div>
-        <SubNavBar/>
+      {!isHomeRoute && <NavBar />}
+      {!isHomeRoute && (
+        <header className="w-full flex tracking-wide mt-28">
+          <div className="w-1/6"></div>
+          <SubNavBar />
         </header>
-        <Routes>
+      )}
+      <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<RegisterForm />} />
         <Route path='/passwordRecovery' element={<PasswordRecovery />} />
@@ -34,9 +36,7 @@ export default function EcommerceApp() {
         <Route path='/product/:productId' element={<ItemDetailContainer />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/purchase' element={<Purchase />} />
-
-        </Routes>
+      </Routes>
     </div>
-
-  )
+  );
 }
