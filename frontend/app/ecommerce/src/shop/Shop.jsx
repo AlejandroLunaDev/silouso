@@ -10,9 +10,6 @@ export default function Shop() {
       <header>
         <h1 className="text-3xl font-bold text-end my-5">Tienda</h1>
       </header>
-      <div>
-        filtros
-      </div>
       <div className="">
         <ItemListContainer/>
       </div>
