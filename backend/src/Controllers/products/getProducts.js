@@ -2,7 +2,15 @@ const { productService } = require("../../services/index.service");
 
 module.exports = async (req, res) => {
   try {
-    const query = {}; // Puedes ajustar el query según tus necesidades
+    // Construir el filtro de consulta basado en los parámetros de consulta
+    const query = {};
+
+    // Filtrar por categoría si se proporciona en los parámetros de consulta
+    if (req.query.category) {
+      query.category = req.query.category; // Ajusta según la estructura de tu modelo de datos
+    }
+
+    // Opciones para la paginación y el ordenamiento
     const options = {
       pagination: true,
       page: req.query.page || 1,
