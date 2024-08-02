@@ -5,6 +5,7 @@ import User from "../../common/components/User";
 import { FaSearch } from 'react-icons/fa';
 import { getProducts } from '../../../../common/services/products';
 import { NavLink } from 'react-router-dom';
+import './Navbar.css'; // Importa el archivo CSS
 
 export default function NavBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -72,8 +73,8 @@ export default function NavBar() {
           <FaSearch />
         </div>
         {showDropdown && filteredProducts.length > 0 && (
-          <div className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-20">
-            <ul className="max-h-60 overflow-y-auto">
+          <div className="absolute top-full left-0  w-full bg-white  rounded-md shadow-lg z-20">
+            <ul className="max-h-60 overflow-y-auto no-scrollbar">
               {filteredProducts.map(product => (
                 <li
                   key={product._id}

@@ -111,6 +111,10 @@ export default function Settings() {
 
   return (
     <div className="h-dvh p-4">
+      <header className='mb-4'>
+        <h1 className="text-2xl font-semibold">Configuración de producto Promocional</h1>
+        <p className="text-gray-700 italic py-4 ">Selecciona un producto para promocionar en el destaque de la primera página.</p>
+      </header>
       <div className="relative mb-4">
         <Select
           options={options}
