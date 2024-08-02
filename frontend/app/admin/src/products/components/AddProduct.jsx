@@ -99,16 +99,16 @@ const AddProduct = ({ onCancel, onAdd }) => {
   // Mapeo de categorías con íconos
   const iconMap = {
     'laptops': <FaLaptop />,
-    'Periféricos': <FaMouse />,
-    'Monitores': <LiaTvSolid />,
-    'Accesorios': <FaHeadphones />,
-    'Redes': <FaWifi />,
-    'Almacenamiento': <FaHdd />,
-    'Impresoras': <FaPrint />,
-    'Auriculares': <FaHeadphones />,
-    'Componentes': <FaMicrochip />,
-    'Procesadores': <FaMicrochip />,
-    'Memorias': <PiMemoryThin />,
+    'perifericos': <FaMouse />,
+    'monitores': <LiaTvSolid />,
+    'accesorios': <FaHeadphones />,
+    'redes': <FaWifi />,
+    'almacenamiento': <FaHdd />,
+    'impresoras': <FaPrint />,
+    'auriculares': <FaHeadphones />,
+    'componentes': <FaMicrochip />,
+    'procesadores': <FaMicrochip />,
+    'memorias': <PiMemoryThin />,
     'PCs': <FaDesktop />,
   };
 

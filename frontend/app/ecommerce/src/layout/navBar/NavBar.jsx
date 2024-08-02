@@ -1,9 +1,56 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CartWidget from "../../common/components/CartWidget";
 import User from "../../common/components/User";
-import { NavLink } from "react-router-dom";
-import { FaSearch } from 'react-icons/fa'; // Importa el ícono de lupa
+import { FaSearch } from 'react-icons/fa';
+import { getProducts } from '../../../../common/services/products';
+import { NavLink } from 'react-router-dom';
 
 export default function NavBar() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await getProducts();
+        if (response && response.products) {
+          setProducts(response.products);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = products
+        .filter(product => product.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        .slice(0, 5); // Limitar a 5 productos
+      setFilteredProducts(filtered);
+      setShowDropdown(true);
+    } else {
+      setFilteredProducts([]);
+      setShowDropdown(false);
+    }
+  }, [searchTerm, products]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+    setSearchTerm('');
+    setShowDropdown(false);
+  };
+
   return (
     <nav className='border-[#61005D] border-b-[1px] w-full flex justify-between items-center px-6 shadow-lg z-10 h-24 fixed top-0 bg-white'>
       <NavLink to="/">
@@ -11,16 +58,35 @@ export default function NavBar() {
           <img src="/brand.svg" alt="silouso-brand" className="h-20" />
         </figure>
       </NavLink>
-      <div className="flex items-center relative
-      ">
+      <div className="relative flex items-center w-full max-w-[600px]">
         <input 
           type="text" 
           placeholder="Buscar..." 
-          className="border border-gray-300 rounded-md py-2 px-4 w-[600px] focus:outline-none focus:ring-2 focus:ring-[#61005D] focus:border-transparent "
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="border border-gray-300 rounded-md py-2 px-4 flex-1 focus:outline-none focus:ring-1 focus:ring-[#61005D] focus:border-transparent "
+          onFocus={() => setShowDropdown(true)}
+          onBlur={() => setTimeout(() => setShowDropdown(false), 100)} // Retardo para el clic en el dropdown
         />
-        <button className="bg-[#61005D] text-white rounded-r-md py-3 absolute right-0 px-4 flex items-center">
+        <div className=" text-[#61005D] absolute right-0 pr-2  flex items-center">
           <FaSearch />
-        </button>
+        </div>
+        {showDropdown && filteredProducts.length > 0 && (
+          <div className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-20">
+            <ul className="max-h-60 overflow-y-auto">
+              {filteredProducts.map(product => (
+                <li
+                  key={product._id}
+                  onClick={() => handleProductClick(product._id)}
+                  className="flex items-center p-2 cursor-pointer hover:bg-gray-100"
+                >
+                  <img src={product.thumbnails[0]} alt={product.title} className="w-8 h-8 object-cover mr-2" />
+                  <span>{product.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="">
         <CartWidget />
