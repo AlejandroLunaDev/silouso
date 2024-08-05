@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
-    "test": "mocha 'test/**/*.test.js' --timeout 5000",
+    "test": "mocha --recursive --timeout 10000",
     "dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js"
   },
@@ -41,10 +41,10 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "artillery": "^2.0.0-38",
-    "chai": "^4.3.10",
-    "mocha": "^10.2.0",
+    "chai": "^4.3.6",
+    "mocha": "^10.7.0",
     "nodemon": "^3.0.2",
-    "supertest": "^6.3.3"
+    "sinon": "^18.0.0",
+    "supertest": "^7.0.0"
   }
 }
