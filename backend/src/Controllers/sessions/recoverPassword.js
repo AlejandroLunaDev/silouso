@@ -26,12 +26,24 @@ module.exports = async (req, res, next) => {
       to: email,
       subject: "Recover password",
       html: `
-              <div>
-                  <h1>Recuperar contraseña</h1>
-                  <a href="${config.SERVER}/resetpassword?token=${token}">Haga click para recuperar su contraseña</a>
-                  <p>Este link solo es valido por 1 hora</>
-              </div>
-              `,
+  <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+          <h1 style="color: #333;">Recuperar Contraseña</h1>
+          <p style="color: #555; font-size: 16px;">Haga clic en el botón a continuación para recuperar su contraseña. Este enlace solo es válido por 1 hora.</p>
+          <a href="${config.SERVER}/resetpassword?token=${token}" style="
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #61005e;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+          ">Recuperar Contraseña</a>
+          <p style="color: #888; font-size: 12px;">Si no solicitó este cambio, por favor ignore este correo.</p>
+        </div>
+      `,
     });
     res.status(200).json({ status: "success" });
   } catch (error) {

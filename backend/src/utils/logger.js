@@ -1,5 +1,6 @@
 const winston = require("winston");
 const config = require("../config/config");
+
 const customLevelOptions = {
   levels: {
     fatal: 0,
@@ -18,6 +19,7 @@ const customLevelOptions = {
     debug: "white"
   }
 };
+
 const devLogger = winston.createLogger({
   levels: customLevelOptions.levels,
   transports: [
@@ -26,44 +28,56 @@ const devLogger = winston.createLogger({
       format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.colorize({ colors: customLevelOptions.colors }),
-        winston.format.simple()
+        winston.format.printf(({ timestamp, level, message }) => {
+          return `${timestamp} ${level}: ${message}`;
+        })
       )
     }),
     new winston.transports.File({
       filename: "./src/logs/errors.log",
       level: "error",
-      format: winston.format.simple()
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+      )
     })
   ]
 });
 
 const prodLogger = winston.createLogger({
   levels: customLevelOptions.levels,
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
   transports: [
     new winston.transports.Console({
       level: "info",
       format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.colorize({ colors: customLevelOptions.colors }),
-        winston.format.simple()
+        winston.format.printf(({ timestamp, level, message }) => {
+          return `${timestamp} ${level}: ${message}`;
+        })
       )
     }),
     new winston.transports.File({
-      filename:  "./src/logs/errors.log",
+      filename: "./src/logs/errors.log",
       level: "error",
-      format: winston.format.simple()
+      maxFiles: 30,
+      maxsize: 5 * 1024 * 1024,
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+      )
     })
   ]
 });
 
 const addLogger = (req, res, next) => {
-  if (config.MODE === "production") {
-    req.logger = prodLogger;
-  } else {
-    req.logger = devLogger;
-  }
+  req.logger = config.MODE === "production" ? prodLogger : devLogger;
   req.logger.http(
-    `${req.method} in ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`
+    `${req.method} ${req.url} - at ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`
   );
   next();
 };

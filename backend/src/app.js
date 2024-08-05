@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const config = require("./config/config.js");
 const factory = require("./dao/factory.js");
-const handlebars = require("express-handlebars");
 const path = require("path");
 const productsRouter = require("./routes/products.routes.js");
 const cartRouter = require("./routes/cart.routes.js");
@@ -17,7 +16,7 @@ const { addLogger } = require("./utils/logger.js");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUiExpress = require("swagger-ui-express");
 const cors = require("cors");
-const logger = require("morgan");
+
 const ticketRoutes = require("./Routes/ticket.routes");
 const categoryRoutes = require("./Routes/category.routes");
 
@@ -30,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname + "/../public")));
 app.use(cookieParser());
 app.use(addLogger);
-app.use(logger("dev"));
+
 
 const specs = swaggerJSDoc(require("./utils/swaggerOptions.js"));
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
@@ -42,16 +41,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.set("view engine", "handlebars");
-app.engine(
-  "handlebars",
-  handlebars.engine({
-    layoutsDir: "./src/views/layouts",
-    partialsDir: "./src/views/partials",
-    defaultLayout: "main.handlebars",
-    helpers: require("./utils/helpers.js"),
-  })
-);
+
 
 app.set("views", path.join(__dirname + "/views"));
 

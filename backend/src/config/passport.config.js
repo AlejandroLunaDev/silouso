@@ -8,8 +8,7 @@ const config = require("./config");
 const { userService, cartService } = require("../services/index.service");
 require('dotenv').config();
 
-// adminCoder@coder.com
-//adminCod3r123
+
 
 const buscaToken = (req) => {
   let token = null;

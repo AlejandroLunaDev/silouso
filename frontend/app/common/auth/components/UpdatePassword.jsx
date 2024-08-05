@@ -64,9 +64,15 @@ export default function UpdatePassword() {
         navigate('/login'); // Redirige al usuario a la página de inicio de sesión
       } catch (error) {
         console.error('Error al actualizar la contraseña:', error);
+        let errorMessage = 'No se pudo actualizar la contraseña';
+
+        if (error.response && error.response.status === 400) {
+          errorMessage = error.response.data.message;
+        }
+
         Swal.fire({
           title: 'Error',
-          text: 'No se pudo actualizar la contraseña',
+          text: errorMessage,
           icon: 'error',
           confirmButtonText: 'OK'
         });
@@ -90,7 +96,7 @@ export default function UpdatePassword() {
         </h2>
         <form onSubmit={formik.handleSubmit}>
           <div className='mb-4'>
-            <label htmlFor='password' className='block text-gray-700 mb-2'>
+            <label htmlFor='password' className='block text-gray-700 mb=2'>
               Nueva Contraseña
             </label>
             <div className='relative'>
@@ -249,7 +255,7 @@ export default function UpdatePassword() {
         <div className='mt-4 text-center'>
           <button
             onClick={() => navigate('/login')}
-            className='text-[#61005D] font-semibold'
+            className='text-[#61005e] hover:underline'
           >
             Volver al inicio de sesión
           </button>

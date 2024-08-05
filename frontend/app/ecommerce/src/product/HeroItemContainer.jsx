@@ -54,7 +54,7 @@ export default function HeroItemContainer() {
             <h1 className="text-6xl font-bold mb-2">{product.title}</h1>
             <p className="mb-4">{product.description}</p>
             <div className="flex gap-4 items-center">
-              <Link to={`/product/${product._id}`} className="border p-3 rounded hover:bg-[#61005D] hover:border-none">
+              <Link to={`/product/${product._id}`} rel='preconnect' className="border p-3 rounded hover:bg-[#61005D] hover:border-none">
                 Ver más
               </Link>
               <button className="flex items-center gap-2 border p-3 rounded hover:bg-[#61005D] hover:border-none">

@@ -13,7 +13,7 @@ export default function NavBarHome() {
           <img src="/nolousotec.svg" alt="silouso-brand" className="h-20" />
         </figure>
       </NavLink>
-      <div>
+      <div className="uppercase">
         <NavList />
       </div>
       <div>
