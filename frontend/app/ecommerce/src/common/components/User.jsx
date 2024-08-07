@@ -1,22 +1,25 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../../common/auth/hook/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
+import { CiLogin } from "react-icons/ci";
+
 
 export default function User() {
   const { decodedToken, logout } = useAuth();
-  const [user, setUser] = useState(null); // Estado local para el usuario
+  const [user, setUser] = useState(null); 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate(); // Hook para redirección
-  const location = useLocation(); // Hook para obtener la ruta actual
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
 
   useEffect(() => {
     if (decodedToken && decodedToken.user) {
-      setUser(decodedToken.user); // Guardar el usuario en el estado local
+      setUser(decodedToken.user); 
     }
     else{
       setUser(null)}
   }, [decodedToken]);
 
+  console.log(user);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleLogout = async () => {
@@ -59,7 +62,10 @@ export default function User() {
             <span className={textColor}>{user.first_name}</span>
           </>
         ) : (
-          <span className={textColor}>Login</span>
+          <span className={`${textColor} flex items-center gap-1 text-lg`}>
+            Ingresar
+            <CiLogin />
+            </span>
         )}
       </div>
       {isMenuOpen && user && (
