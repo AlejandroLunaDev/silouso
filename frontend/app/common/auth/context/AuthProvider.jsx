@@ -39,8 +39,8 @@ export default function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await logOutUser();
       setUser(null);
+      await logOutUser();
   
     } catch (error) {
       console.error('Logout error in AuthProvider:', error);

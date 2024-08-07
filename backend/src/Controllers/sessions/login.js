@@ -28,9 +28,7 @@ module.exports = async (req, res) => {
     res.cookie(config.PASS_COOKIE, token, {
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
-      sameSite: 'Lax', // Esto es importante para cookies en entornos cross-domain
-         // Esto es importante para cookies en entornos cross-domain
-  
+      sameSite: 'Lax', 
     });
 
     await userService.update(user._id, {

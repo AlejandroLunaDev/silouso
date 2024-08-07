@@ -13,10 +13,11 @@ const {
 } = require("../controllers/sessions.controller");
 const passportCall = require("../utils/passportCall");
 const authTokenResetPassword = require("../middlewares/authTokenResetPassword");
+const loginLimiter = require("../middlewares/loginLimiter"); // Importa el middleware
 
 class SessionsRoutes extends Router {
   init() {
-    this.post("/login", ["PUBLIC"], login);
+    this.post("/login", ["PUBLIC"], loginLimiter, login); // Aplica el middleware aquí
     this.post("/recoverpassword", ["PUBLIC"], recoverPassword);
     this.post(
       "/updatepassword",

@@ -1,33 +1,46 @@
 const config = require("../../config/config");
 const generaJWT = require("../../utils/generaJWT");
 const dotenv = require("dotenv").config();
+const { userService } = require("../../services/index.service");
 
-module.exports = (req, res) => {
-  const user = req.user;
-  const userLimited = {
-    id: user._id,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    role: user.role,
-    cartId: user.cartId,
-    thumbnail: user.thumbnail
-  };
-  const token = generaJWT(userLimited);
-  res.cookie(config.PASS_COOKIE, token, {
-    maxAge: 1000 * 60 * 60,
-    httpOnly: false,
-    sameSite: "Lax",
-  });
+module.exports = async (req, res) => {
+  try {
+    const user = req.user;
 
-  
+    // Actualiza la fecha de la última conexión
+    await userService.update(user._id, {
+      last_connection: new Date(),
+    });
 
-  const redirectURL = user.role === 'admin'
-  ? process.env.NODE_ENV === 'production'
-    ? 'https://silouso.shop/admin'
-    : 'http://localhost:5173/admin'
-  : process.env.NODE_ENV === 'production'
-    ? 'https://silouso.shop/'
-    : 'http://localhost:5173/';
-  res.status(200).redirect(redirectURL);
+    const userLimited = {
+      id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      role: user.role,
+      cartId: user.cartId,
+      thumbnail: user.thumbnail,
+    };
+
+    const token = generaJWT(userLimited);
+    res.cookie(config.PASS_COOKIE, token, {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: false,
+      sameSite: "Lax",
+    });
+
+    const redirectURL =
+      user.role === 'admin'
+        ? process.env.NODE_ENV === 'production'
+          ? 'https://silouso.shop/admin'
+          : 'http://localhost:5173/admin'
+        : process.env.NODE_ENV === 'production'
+        ? 'https://silouso.shop/'
+        : 'http://localhost:5173/';
+
+    res.status(200).redirect(redirectURL);
+  } catch (error) {
+    req.logger.error(error);
+    res.status(500).send("Error al iniciar sesión");
+  }
 };
