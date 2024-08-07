@@ -29,7 +29,6 @@ export default function ListNav() {
   const handleLogout = () => {
     logout();
     navigate('/');
-    window.location.reload(); 
   };
   return (
     <ul className=' flex flex-col gap-3  text-[1.5rem] text-gray-600'>
