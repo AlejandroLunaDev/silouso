@@ -115,7 +115,12 @@ const Products = () => {
     <div className='container mx-auto mt-8 px-4 py-4'>
       {addingProduct ? (
         <AddProduct
-          onAdd={() => setAddingProduct(false)}
+          onAdd={async() => {
+
+            setAddingProduct(false);
+            await fetchProducts()
+          }
+          }
           onCancel={() => setAddingProduct(false)}
         />
       ) : editingProductId ? (
