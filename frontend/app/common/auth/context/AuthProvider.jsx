@@ -26,21 +26,25 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
-  const login = async credentials => {
-    try {
-      const response = await loginUser(credentials);
-      const data = await response.json(); // Esto es innecesario y provoca el error
-      return data;
-    } catch (error) {
-      console.error('Login error in AuthProvider:', error);
-      return { status: 'error', message: 'Login failed' };
-    }
-  };
+const login = async (credentials) => {
+  try {
+    // Llamamos a la función loginUser para autenticar al usuario
+    const { data, response } = await loginUser(credentials);
+
+    // Puedes usar data y response aquí según sea necesario
+    return { data, response };
+  } catch (error) {
+    // Manejo de errores en el login
+    console.error('Login error in AuthProvider:', error);
+    return { status: 'error', message: error.message };
+  }
+};
+
 
   const logout = async () => {
     try {
-      setUser(null);
       await logOutUser();
+      setUser(null);
   
     } catch (error) {
       console.error('Logout error in AuthProvider:', error);

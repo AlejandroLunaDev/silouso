@@ -25,16 +25,16 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       setLoading(true);
-      try {
-        await login({ email: values.email, password: values.password });
-        // Redirigir o manejar el éxito del login aquí
-      } catch (error) {
-        console.error('Login error:', error);
-        formik.setErrors({ general: 'Usuario o contraseña incorrectos' });
-      } finally {
-        setLoading(false);
+      const result = await login({ email: values.email, password: values.password });
+
+      if (result.status === 'error') {
+        formik.setErrors({ general: result.message });
+      } else {
+        navigate('/'); // Redirige después de un login exitoso
       }
-    }
+
+      setLoading(false);
+    } 
   });
 
   const handleLoginWithGitHub = async () => {
@@ -60,7 +60,7 @@ export default function Login() {
   };
 
   return (
-    <section className='w-full h-screen flex justify-center items-center  '>
+    <section className='w-full h-screen flex justify-center items-center'>
       <div className='bg-white shadow-lg p-8 rounded-lg w-2/4 flex flex-col justify-center'>
         {formik.errors.general && <p className='text-red-500 mb-4'>{formik.errors.general}</p>}
         <h2 className='text-2xl font-extrabold text-center text-[#61005D] mb-4'>Iniciar Sesión</h2>
@@ -171,18 +171,8 @@ export default function Login() {
             {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>
-        <div className='text-center mt-4'>
-          <small>
-            ¿No tienes una cuenta?{' '}
-            <button
-              className='text-[#61005D] font-semibold'
-              onClick={() => navigate('/register')} // Redirige a /register
-            >
-              Regístrate
-            </button>
-          </small>
-        </div>
       </div>
     </section>
   );
 }
+
