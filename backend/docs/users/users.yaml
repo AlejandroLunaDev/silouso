@@ -1,0 +1,287 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+
+paths:
+  /api/users/premium/{uid}:
+    put:
+      summary: Promote user to premium
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+            example: "user123"
+          description: Unique identifier of the user
+      responses:
+        "200":
+          description: User promoted to premium successfully
+        "401":
+          description: Unauthorized or insufficient permissions
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+
+  /api/users:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      responses:
+        "200":
+          description: List of users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized or insufficient permissions
+        "500":
+          description: Internal server error
+
+    delete:
+      summary: Delete all inactive users
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Inactive users deleted successfully
+        "401":
+          description: Unauthorized or insufficient permissions
+        "500":
+          description: Internal server error
+
+  /api/users/admin:
+    get:
+      summary: Get all admin users
+      tags:
+        - Users
+      responses:
+        "200":
+          description: List of admin users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized or insufficient permissions
+        "500":
+          description: Internal server error
+
+  /api/users/{uid}/products:
+    get:
+      summary: Get products by user ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+            example: "user123"
+          description: Unique identifier of the user
+      responses:
+        "200":
+          description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        "401":
+          description: Unauthorized or insufficient permissions
+        "404":
+          description: User or products not found
+        "500":
+          description: Internal server error
+
+  /api/users/imageProfile:
+    post:
+      summary: Upload user profile image
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                profile:
+                  type: string
+                  format: binary
+                  description: Profile image file
+      responses:
+        "200":
+          description: Profile image uploaded successfully
+        "401":
+          description: Unauthorized or insufficient permissions
+        "500":
+          description: Internal server error
+
+  /api/users/{uid}/documents:
+    post:
+      summary: Upload user documents
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+            example: "user123"
+          description: Unique identifier of the user
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                identification:
+                  type: string
+                  format: binary
+                  description: Identification document file
+                address:
+                  type: string
+                  format: binary
+                  description: Address proof document file
+                statusaccount:
+                  type: string
+                  format: binary
+                  description: Account status document file
+                profile:
+                  type: string
+                  format: binary
+                  description: Profile image file
+      responses:
+        "200":
+          description: Documents uploaded successfully
+        "401":
+          description: Unauthorized or insufficient permissions
+        "500":
+          description: Internal server error
+
+  /api/users/{uid}:
+    delete:
+      summary: Delete user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+            example: "user123"
+          description: Unique identifier of the user
+      responses:
+        "200":
+          description: User deleted successfully
+        "401":
+          description: Unauthorized or insufficient permissions
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+
+  /api/users/{uid}/role:
+    put:
+      summary: Update user role
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+            example: "user123"
+          description: Unique identifier of the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: New role for the user
+                  example: "PREMIUM"
+      responses:
+        "200":
+          description: User role updated successfully
+        "401":
+          description: Unauthorized or insufficient permissions
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        uid:
+          type: string
+          example: "user123"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        age:
+          type: string
+          example: "30"
+        email:
+          type: string
+          example: "user@example.com"
+        role:
+          type: string
+          example: "USER"
+        avatar:
+          type: string
+          example: "https://example.com/avatar.jpg"
+        last_connection:
+          type: string
+          format: date-time
+          example: "2023-07-21T19:20:30Z"
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "identification"
+              reference:
+                type: string
+                example: "https://example.com/document.pdf"
+
+    Product:
+      type: object
+      properties:
+        productId:
+          type: string
+          example: "product123"
+        name:
+          type: string
+          example: "Laptop"
+        price:
+          type: number
+          example: 999.99

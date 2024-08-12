@@ -13,6 +13,8 @@ import 'toastify-js/src/toastify.css';
 import EditProduct from './components/EditProduct';
 import AddProduct from './components/AddProduct';
 
+import {formatNumber} from '../../../common/helper/formatNumeber';
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [sortOrder, setSortOrder] = useState('desc');
@@ -112,7 +114,7 @@ const Products = () => {
   };
 
   return (
-    <div className='container mx-auto mt-8 px-4 py-4'>
+    <div className='h-screen mx-auto mt-8 px-4 py-4'>
       {addingProduct ? (
         <AddProduct
           onAdd={async() => {
@@ -209,7 +211,7 @@ const Products = () => {
                     {product.title}
                   </td>
                   <td className='border border-gray-300 px-4 py-2'>
-                    ${product.price}
+                    ${formatNumber(product.price)}
                   </td>
                   <td className='border border-gray-300 px-4 py-2'>
                     {product.stock}

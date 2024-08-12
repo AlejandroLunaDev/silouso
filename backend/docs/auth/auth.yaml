@@ -1,0 +1,198 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: User login
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        "200":
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token for authenticated user
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        "401":
+          description: Invalid credentials
+        "429":
+          description: Too many login attempts, please try again later
+        "500":
+          description: Internal server error
+
+  /api/sessions/recoverpassword:
+    post:
+      summary: Recover password
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+      responses:
+        "200":
+          description: Password recovery email sent
+        "401":
+          description: User not found
+        "500":
+          description: Internal server error
+
+  /api/sessions/updatepassword:
+    post:
+      summary: Update password
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Token from password recovery email
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                newPassword:
+                  type: string
+                  example: "newpassword123"
+      responses:
+        "200":
+          description: Password updated successfully
+        "401":
+          description: Invalid or expired token
+        "500":
+          description: Internal server error
+
+  /api/sessions/register:
+    post:
+      summary: User registration
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "password123"
+                name:
+                  type: string
+                  example: "John Doe"
+      responses:
+        "200":
+          description: User registered successfully
+        "400":
+          description: Email already in use
+        "500":
+          description: Internal server error
+
+  /api/sessions/github:
+    get:
+      summary: GitHub login
+      tags:
+        - Sessions
+      responses:
+        "302":
+          description: Redirect to GitHub for authentication
+
+  /api/sessions/github/callback:
+    get:
+      summary: GitHub login callback
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: User authenticated with GitHub
+        "401":
+          description: Authentication failed
+        "500":
+          description: Internal server error
+
+  /api/sessions/google:
+    get:
+      summary: Google login
+      tags:
+        - Sessions
+      responses:
+        "302":
+          description: Redirect to Google for authentication
+
+  /api/sessions/google/callback:
+    get:
+      summary: Google login callback
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: User authenticated with Google
+        "401":
+          description: Authentication failed
+        "500":
+          description: Internal server error
+
+  /api/sessions/current:
+    get:
+      summary: Get current user session
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: Current user session data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: "user@example.com"
+                      name:
+                        type: string
+                        example: "John Doe"
+        "401":
+          description: Unauthorized, must be logged in
+        "500":
+          description: Internal server error
+
+  /api/sessions/logout:
+    get:
+      summary: User logout
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: User logged out successfully
+        "500":
+          description: Internal server error
