@@ -1,11 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,navigate } from 'react';
 import { Link } from 'react-router-dom';
 import { TiShoppingCart } from 'react-icons/ti';
-import { getProducts } from '../../../common/services/products'; // Asegúrate de importar la función correctamente
+import { getProducts } from '../../../common/services/products'; 
+import Toastify from 'toastify-js';
+import 'toastify-js/src/toastify.css';
+import { useCart } from '../common/hook/useCart';
+import { useAuth } from '../../../common/auth/hook/useAuth';
+
+
 
 export default function HeroItemContainer() {
   const [product, setProduct] = useState(null);
   const [videoSrc, setVideoSrc] = useState("");
+  const { addProductToCart } = useCart();
+  const { user } = useAuth(); 
 
   useEffect(() => {
     const fetchPromotedProduct = async () => {
@@ -13,6 +21,7 @@ export default function HeroItemContainer() {
         const response = await getProducts();
         if (response && response.products) {
           const promotedProduct = response.products.find(p => p.isPromoted);
+          console.log("promotedProduct", promotedProduct);
           setProduct(promotedProduct || null);
         } else {
           console.error('No se recibieron datos válidos.');
@@ -38,6 +47,24 @@ export default function HeroItemContainer() {
     );
   }
 
+
+  const handleOnAdd = () => {
+    if (!user) {
+      // If there is no user, redirect to login
+      navigate('/login');
+    } else {
+      // If user is authenticated, add the product to the cart
+      addProductToCart(product._id);
+      Toastify({
+        text: "Producto agregado al carrito",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#61005D",
+      }).showToast();
+    }
+  };
   return (
     <section className='bg-black h-screen flex items-center relative'>
       <video
@@ -57,7 +84,9 @@ export default function HeroItemContainer() {
               <Link to={`/product/${product._id}`} rel='preconnect' className="border p-3 rounded hover:bg-[#61005D] hover:border-none">
                 Ver más
               </Link>
-              <button className="flex items-center gap-2 border p-3 rounded hover:bg-[#61005D] hover:border-none">
+              <button 
+              onClick={handleOnAdd}
+              className="flex items-center gap-2 border p-3 rounded hover:bg-[#61005D] hover:border-none">
                 <TiShoppingCart className="text-xl" />
                 Comprar
               </button>
