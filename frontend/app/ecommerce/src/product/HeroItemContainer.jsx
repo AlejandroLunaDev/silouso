@@ -21,7 +21,6 @@ export default function HeroItemContainer() {
         const response = await getProducts();
         if (response && response.products) {
           const promotedProduct = response.products.find(p => p.isPromoted);
-          console.log("promotedProduct", promotedProduct);
           setProduct(promotedProduct || null);
         } else {
           console.error('No se recibieron datos válidos.');
