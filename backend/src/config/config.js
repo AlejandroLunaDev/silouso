@@ -18,8 +18,7 @@ const config = {
   GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL,
   CALLBACK_URL: process.env.CALLBACK_URL,
   PASS_COOKIE: process.env.PASS_COOKIE,
-
-
+  MONGO_URL_TEST: process.env.MONGO_URL_TEST,
   MODE: process.env.MODE || "production",
 };
 

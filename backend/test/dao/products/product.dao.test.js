@@ -10,7 +10,7 @@ describe('Product DAO Tests', () => {
     
     // Conectar a la base de datos de prueba antes de las pruebas
     before(async () => {
-        await mongoose.connect(config.MONGO_URI, {
+        await mongoose.connect(config.MONGO_URL_TEST, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });

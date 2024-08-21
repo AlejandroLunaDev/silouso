@@ -5,7 +5,7 @@ const config = require('../../../../src/config/config');
 
 describe('User Model Tests', () => {
     before(async () => {
-        await mongoose.connect(config.MONGO_URI, {
+        await mongoose.connect(config.MONGO_URL_TEST, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });

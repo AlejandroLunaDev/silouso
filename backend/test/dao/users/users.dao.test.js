@@ -9,7 +9,7 @@ const userDao = new UserDao(User);
 
 describe('User DAO Tests', () => {
     before(async () => {
-        await mongoose.connect(config.MONGO_URI, {
+        await mongoose.connect(config.MONGO_URL_TEST, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
