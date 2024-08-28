@@ -1,15 +1,21 @@
 const { Schema, model } = require("mongoose");
-const messageCollection = "messages";
+
+const collection = "messages";
 
 const messageSchema = new Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    message: {
-        type: String,
-        required: true
-    }
-},{timestamps:true});
+  sender: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  recipient: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  message: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now }  
+});
 
-module.exports = model(messageCollection, messageSchema);
+const messageModel = model(collection, messageSchema);
+
+module.exports = { messageModel };

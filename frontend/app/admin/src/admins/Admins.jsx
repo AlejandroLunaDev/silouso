@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAdminUsers, updateUserRole, getUsers } from '../services/users'; // Ajusta la ruta según sea necesario
+import { getAdminUsers, updateUserRole, getUsers } from '../../../common/services/users'; // Ajusta la ruta según sea necesario
 import { FaCircle, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { IoAdd } from 'react-icons/io5';

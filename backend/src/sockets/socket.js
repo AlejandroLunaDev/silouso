@@ -24,12 +24,13 @@ module.exports = io => {
       }
     });
 
-    socket.on("newMessage", async message => {
+    socket.on('newMessage', async (message) => {
       try {
-        await messagesModel.create(message);
-        io.emit("updateMessages", message);
+        const savedMessage = await messagesModel.create(message);
+        io.emit('updateMessages', savedMessage);
       } catch (error) {
         console.log(error);
+        socket.emit('errorMessage', 'Hubo un error al guardar el mensaje.');
       }
     });
 

@@ -49,10 +49,10 @@ export default function HeroItemContainer() {
 
   const handleOnAdd = () => {
     if (!user) {
-      // If there is no user, redirect to login
+
       navigate('/login');
     } else {
-      // If user is authenticated, add the product to the cart
+    // If user is authenticated, add the product to the cart
       addProductToCart(product._id);
       Toastify({
         text: "Producto agregado al carrito",

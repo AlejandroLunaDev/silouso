@@ -10,10 +10,14 @@ import ItemDetailContainer from './product/ItemDetailContainer';
 import Shop from './shop/Shop';
 import Purchase from './purchase/Purchase';
 import SubNavBar from './layout/subNavBar/SubNavBar';
+import Chat from './chat/Chat';
+import { useAuth } from '../../common/auth/hook/useAuth';
 
 export default function EcommerceApp() {
   const location = useLocation();
   const isHomeRoute = location.pathname === '/';
+  const { decodedToken } = useAuth();
+  
 
   return (
     <div>
@@ -36,6 +40,7 @@ export default function EcommerceApp() {
         <Route path='/product/:productId' element={<ItemDetailContainer />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/purchase' element={<Purchase />} />
+        <Route path='/chat' element={decodedToken ? <Chat /> : <Navigate to='/login' />}/>
       </Routes>
     </div>
   );

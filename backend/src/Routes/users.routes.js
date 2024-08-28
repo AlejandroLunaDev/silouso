@@ -15,7 +15,7 @@ const { getPorudctsByUid } = require("../controllers/products.controller");
 class UserRoutes extends Router {
   init() {
     this.get("/premium/:uid", ["ADMIN"], userPremium);
-    this.get("/", ["ADMIN"], getUsers);
+    this.get("/", ["ADMIN", "USER", "PREMIUM"], getUsers);
     this.get("/admin", ["ADMIN"], getAdminUsers);
     this.get("/:uid/products", ["USER", "PREMIUM"], getPorudctsByUid);
     this.post(

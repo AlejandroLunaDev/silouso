@@ -19,7 +19,7 @@ export default function User() {
       setUser(null)}
   }, [decodedToken]);
 
-  console.log(user);
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleLogout = async () => {

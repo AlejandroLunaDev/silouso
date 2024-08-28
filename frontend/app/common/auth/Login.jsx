@@ -171,6 +171,17 @@ export default function Login() {
             {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>
+        <div className='mt-4 text-center'>
+          <small>
+            ¿No tienes cuenta?{' '}
+            <Link
+              to="/register"
+              className='text-[#61005D] font-semibold'
+            >
+              Regístrate
+            </Link>
+          </small>
+        </div>
       </div>
     </section>
   );
