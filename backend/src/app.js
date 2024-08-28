@@ -20,12 +20,17 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUiExpress = require('swagger-ui-express');
 
 // Middlewares
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-  })
-);
+const isProduction = process.env.NODE_ENV === 'production';
+const origin =isProduction ? ['https://www.silouso.shop'] : ['http://localhost:5173', 'http://localhost:8080'];
+console.log(`Origin: ${origin}`);
+
+app.use(cors({
+  origin: origin,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname + '/../public')));
@@ -50,9 +55,10 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/chat', chatRoutes);
 
 // Create HTTP server and configure Socket.io
-const httpServer = app.listen(config.PORT, () => 
-  console.log(`Server running on http://localhost:${config.PORT}`)
-);
+const httpServer = app.listen(config.PORT, () => {
+  console.log(`Server running on ${isProduction ? config.PRODUCTION_URL : `http://localhost:${config.PORT}`}`);
+});
+
 const io = socketConfig(httpServer);
 
 app.use((req, res, next) => {

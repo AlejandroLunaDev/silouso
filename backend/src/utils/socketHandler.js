@@ -1,11 +1,9 @@
-const messageController = require("../controllers/chat.controllers"); // Importa la instancia
+const messageController = require("../controllers/chat.controllers");
 
 const onlineUsers = new Map();
 
 const socketHandler = (io) => {
   io.on("connection", (socket) => {
-    console.log("Nuevo cliente conectado");
-
     socket.on("joinChat", (user) => {
       onlineUsers.set(socket.id, user);
       io.emit("userList", Array.from(onlineUsers.values()));
@@ -14,7 +12,7 @@ const socketHandler = (io) => {
     socket.on("chatMessage", async (messageData) => {
       try {
         const message = await messageController.handleSocketMessage(messageData);
-        io.emit("chatMessage", message);  // Emitir el mensaje a todos los clientes conectados
+        io.emit("chatMessage", message);
       } catch (error) {
         console.error("Error al enviar el mensaje: ", error);
       }
@@ -23,7 +21,6 @@ const socketHandler = (io) => {
     socket.on("disconnect", () => {
       onlineUsers.delete(socket.id);
       io.emit("userList", Array.from(onlineUsers.values()));
-      console.log("Cliente desconectado");
     });
   });
 };
