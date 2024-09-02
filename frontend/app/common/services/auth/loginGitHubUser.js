@@ -1,5 +1,6 @@
-const BASE_URL = 'http://localhost:8080';
+import { getBaseUrl } from "../../helper/envHelper";
 
+const BASE_URL = getBaseUrl();
 export const loginGitHubUser = async () => {
 
     window.location.href = `${BASE_URL}/api/sessions/github`;

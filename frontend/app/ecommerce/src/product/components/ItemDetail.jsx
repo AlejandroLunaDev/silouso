@@ -140,7 +140,7 @@ export default function ItemDetail({ product }) {
           <div className="w-60 mt-8">
             {hasStock ? (
               <button onClick={handleOnAdd} className='bg-[#61005D] text-white rounded px-6 py-2'>
-                Agregar
+                Comprar
               </button>
             ) : (
               <div className="bg-red-500 text-white rounded px-2 py-1">

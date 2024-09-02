@@ -4,6 +4,7 @@ import LastItemListContainer from "../product/LastItemListContainer";
 import NavBarHome from "./Navbar/NavBarHome";
 
 
+
 export default function Home() {
   return (
     <section className=" relative">

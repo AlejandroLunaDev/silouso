@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:8080';
+import { getBaseUrl } from "../../helper/envHelper";
+
+const BASE_URL = getBaseUrl();
 
 export const getProducts = async (page = 1, limit = 10, sortOrder = 'desc', sortBy = 'created_at', category = null) => {
     try {

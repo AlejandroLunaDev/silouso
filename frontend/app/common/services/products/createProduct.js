@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:8080'; // Reemplaza con la URL base de tu backend
+import { getBaseUrl } from "../../helper/envHelper";
+
+const BASE_URL = getBaseUrl();
 
 export const createProduct = async (newProduct) => {
   try {

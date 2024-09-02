@@ -11,7 +11,9 @@ import Shop from './shop/Shop';
 import Purchase from './purchase/Purchase';
 import SubNavBar from './layout/subNavBar/SubNavBar';
 import Chat from './chat/Chat';
+import Upgrade from './users/Upgrade';
 import { useAuth } from '../../common/auth/hook/useAuth';
+import RegisterUserUpgrate from './users/RegisterUserUpgrate';
 
 export default function EcommerceApp() {
   const location = useLocation();
@@ -41,6 +43,8 @@ export default function EcommerceApp() {
         <Route path='/shop' element={<Shop />} />
         <Route path='/purchase' element={<Purchase />} />
         <Route path='/chat' element={decodedToken ? <Chat /> : <Navigate to='/login' />}/>
+        <Route path= '/upgrade' element={<Upgrade />} />
+        <Route path = '/upgrade/register' element={<RegisterUserUpgrate />} />
       </Routes>
     </div>
   );

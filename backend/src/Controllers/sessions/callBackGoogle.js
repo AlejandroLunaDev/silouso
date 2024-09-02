@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
       role: user.role,
       cartId: user.cartId,
       thumbnail: user.avatar || user.thumbnail || '',
+      document: user.document || '',
     };
 
     const token = generaJWT(userLimited);

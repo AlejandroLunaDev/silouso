@@ -47,3 +47,12 @@
 {"level":"error","message":null,"timestamp":"2024-08-27T13:32:31.846Z"}
 {"level":"error","message":null,"timestamp":"2024-08-27T13:32:31.877Z"}
 {"level":"error","message":null,"timestamp":"2024-08-27T13:32:31.891Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-08-28T18:03:43.237Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-08-28T18:03:45.203Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-08-28T18:03:45.973Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-08-28T18:03:48.485Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-08-28T18:03:52.250Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-08-28T18:03:56.139Z"}
+{"level":"error","timestamp":"2024-08-28T19:31:55.184Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-09-02T13:40:23.780Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-09-02T13:41:14.940Z"}

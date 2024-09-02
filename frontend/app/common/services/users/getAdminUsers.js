@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:8080';
+import { getBaseUrl } from "../../helper/envHelper";
+
+const BASE_URL = getBaseUrl();
 export const getAdminUsers = async () => {
     try {
         const response = await fetch(`${BASE_URL}/api/users/admin`, {

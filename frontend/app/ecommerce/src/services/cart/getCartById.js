@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:8080"; // Asegúrate de incluir 'http://'
+import { getBaseUrl } from "../../../../common/helper/envHelper";
+const BASE_URL = getBaseUrl();
 
 export async function getCartById(id) {
     try {

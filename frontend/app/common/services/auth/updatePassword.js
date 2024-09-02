@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:8080';
+import { getBaseUrl } from "../../helper/envHelper";
+
+const BASE_URL = getBaseUrl();
 
 export const updatePassword = async (password, password2, token) => {
     const URL = `${BASE_URL}/api/sessions/updatepassword`;

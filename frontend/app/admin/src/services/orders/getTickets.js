@@ -1,7 +1,9 @@
-const BASE_URL = 'http://localhost:8080';
+import { getBaseUrl } from "../../../../common/helper/envHelper";
 
+
+const BASE_URL = getBaseUrl();
 export const getTickets = async () => {
-
+  
   
     try {
       const response = await fetch(`${BASE_URL}/api/tickets`, {

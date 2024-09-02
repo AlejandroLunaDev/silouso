@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:8080';
+import { getBaseUrl } from "../../../../common/helper/envHelper";
+const BASE_URL = getBaseUrl();
 
 export const purchase = async (cartId, userEmail) => {
     const response = await fetch(`${BASE_URL}/api/carts/${cartId}/purchase`, {

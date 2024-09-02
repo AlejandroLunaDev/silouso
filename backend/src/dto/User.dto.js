@@ -8,5 +8,6 @@ class UserDto {
     this.password = user.password;
     this.cart = user.cart;
     this.role = user.role;
+    this.document = user.document;
   }
 }

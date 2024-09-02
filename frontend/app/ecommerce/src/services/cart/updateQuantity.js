@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:8080";
+import { getBaseUrl } from "../../../../common/helper/envHelper";
+const BASE_URL = getBaseUrl();
 
 
 export const updateQuantity = async (cartId, productId, quantity) => {
