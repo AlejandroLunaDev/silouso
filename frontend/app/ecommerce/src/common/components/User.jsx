@@ -42,6 +42,8 @@ export default function User() {
     }
   };
 
+
+
   // Determina el color del texto según la ruta actual
   const isHomePage = location.pathname === '/';
   const textColor = isHomePage ? 'text-white' : 'text-[#61005D]';
