@@ -2,7 +2,7 @@
   "name": "server-express",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "mocha --recursive --timeout 10000",
     "dev": "nodemon ./src/app.js",
