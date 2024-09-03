@@ -10,7 +10,7 @@ const {
   callBackGoogle,
   logOut,
   current
-} = require('../controllerstemp/sessions.controller');
+} = require('../controllers/sessions.controller');
 const passportCall = require('../utils/passportCall');
 const authTokenResetPassword = require('../middlewares/authTokenResetPassword');
 const loginLimiter = require('../middlewares/loginLimiter'); // Importa el middleware

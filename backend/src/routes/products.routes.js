@@ -7,7 +7,7 @@ const {
   getProductsPaginate,
   updateProduct,
   deleteProduct
-} = require('../controllerstemp/products.controller');
+} = require('../controllers/products.controller');
 const uploader = require('../middlewares/multer');
 const passportCall = require('../utils/passportCall');
 

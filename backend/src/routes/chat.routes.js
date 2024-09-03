@@ -1,5 +1,5 @@
 const Router = require('./router');
-const MessageController = require('../controllerstemp/chat.controllers'); // Asegúrate de que la ruta sea correcta
+const MessageController = require('../controllers/chat.controllers'); // Asegúrate de que la ruta sea correcta
 
 class ChatRouter extends Router {
   init() {

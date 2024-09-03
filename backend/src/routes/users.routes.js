@@ -8,9 +8,9 @@ const {
   deleteAllUsersInactive,
   updateRole,
   getAdminUsers
-} = require('../controllerstemp/user.controller');
+} = require('../controllers/user.controller');
 const uploader = require('../middlewares/multer');
-const { getPorudctsByUid } = require('../controllerstemp/products.controller');
+const { getPorudctsByUid } = require('../controllers/products.controller');
 
 class UserRoutes extends Router {
   init() {

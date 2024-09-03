@@ -1,4 +1,4 @@
-const messageController = require('../controllerstemp/chat.controllers');
+const messageController = require('../controllers/chat.controllers');
 
 const onlineUsers = new Map();
 

@@ -7,7 +7,7 @@ const {
   deleteProduct,
   deleteProducts,
   purchase
-} = require('../controllerstemp/carts.controller');
+} = require('../controllers/carts.controller');
 
 const Router = require('./router');
 
