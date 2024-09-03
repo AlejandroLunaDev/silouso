@@ -4,12 +4,12 @@ const config = require('./config/config.js');
 const path = require('path');
 const productsRouter = require('./routes/products.routes.js');
 const cartRouter = require('./routes/cart.routes.js');
-const sessionsRouter = require('./routes/sessions.routes');
+const sessionsRouter = require('./routes/sessions.routes.js');
 const usersRouter = require('./routes/users.routes.js');
-const ticketRoutes = require('./routes/ticket.routes');
-const categoryRoutes = require('./routes/category.routes');
+const ticketRoutes = require('./routes/ticket.routes.js');
+const categoryRoutes = require('./routes/category.routes.js');
 const chatRoutes = require('./routes/chat.routes.js');
-const socketConfig = require('./config/socketConfig'); 
+const socketConfig = require('./config/socketConfig');
 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -21,15 +21,19 @@ const swaggerUiExpress = require('swagger-ui-express');
 
 // Middlewares
 const isProduction = process.env.NODE_ENV === 'production';
-const origin =isProduction ? ['https://www.silouso.shop'] : ['http://localhost:5173', 'http://localhost:8080'];
+const origin = isProduction
+  ? ['https://www.silouso.shop']
+  : ['http://localhost:5173', 'http://localhost:8080'];
 console.log(`Origin: ${origin}`);
 
-app.use(cors({
-  origin: origin,
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+app.use(
+  cors({
+    origin: origin,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -56,7 +60,11 @@ app.use('/api/chat', chatRoutes);
 
 // Create HTTP server and configure Socket.io
 const httpServer = app.listen(config.PORT, () => {
-  console.log(`Server running on ${isProduction ? config.PRODUCTION_URL : `http://localhost:${config.PORT}`}`);
+  console.log(
+    `Server running on ${
+      isProduction ? config.PRODUCTION_URL : `http://localhost:${config.PORT}`
+    }`
+  );
 });
 
 const io = socketConfig(httpServer);
