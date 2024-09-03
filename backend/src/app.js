@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const config = require('./config/config.js');
 const path = require('path');
 const productsRouter = require('./routes/products.routes.js');
@@ -19,8 +18,16 @@ const { addLogger } = require('./utils/logger.js');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUiExpress = require('swagger-ui-express');
 
-// Middlewares
+
+const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
+const port = config.PORT || 3000;
+
+// Create HTTP server and configure Socket.io
+const httpServer = app.listen(port, () => {
+  console.log(`Server running on port ${isProduction ? config.PRODUCTION_URL : `http://localhost:${port}`}`);
+});
+
 const origin = isProduction
   ? ['https://www.silouso.shop']
   : ['http://localhost:5173', 'http://localhost:8080'];
@@ -57,15 +64,8 @@ app.use('/api/users', usersRouter.getRouter());
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/chat', chatRoutes);
-console.log('url production',config.PRODUCTION_URL);
-// Create HTTP server and configure Socket.io
-const httpServer = app.listen(config.PORT, () => {
-  console.log(
-    `Server running on ${
-      isProduction ? config.PRODUCTION_URL : `http://localhost:${config.PORT}`
-    }`
-  );
-});
+
+
 
 const io = socketConfig(httpServer);
 
