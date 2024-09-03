@@ -1,5 +1,5 @@
 const Router = require('./router');
-const categoryController = require('../controllers/category.controller');
+const categoryController = require('../controllerstemp/category.controller');
 
 class CategoryRouter extends Router {
   init() {

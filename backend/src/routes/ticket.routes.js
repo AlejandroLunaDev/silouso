@@ -5,7 +5,7 @@ const {
   createTicket,
   getTotalSales,
   getMonthlySales
-} = require('../controllers/tickets.controller');
+} = require('../controllerstemp/tickets.controller');
 
 class TicketsRouter extends Router {
   init() {
