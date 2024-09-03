@@ -1,13 +1,13 @@
-const Router = require("./router");
-const categoryController = require("../Controllers/category.controller");
+const Router = require('./router');
+const categoryController = require('../controllers/category.controller');
 
 class CategoryRouter extends Router {
   init() {
-    this.get("/", ["PUBLIC"], categoryController.getCategories);
-    this.get("/:id", ["PUBLIC"], categoryController.getCategoryById);
-    this.post("/", ["ADMIN"], categoryController.addCategory);
-    this.put("/:id", ["ADMIN"], categoryController.updateCategory);
-    this.delete("/:id", ["ADMIN"], categoryController.deleteCategory);
+    this.get('/', ['PUBLIC'], categoryController.getCategories);
+    this.get('/:id', ['PUBLIC'], categoryController.getCategoryById);
+    this.post('/', ['ADMIN'], categoryController.addCategory);
+    this.put('/:id', ['ADMIN'], categoryController.updateCategory);
+    this.delete('/:id', ['ADMIN'], categoryController.deleteCategory);
   }
 }
 

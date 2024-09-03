@@ -1,19 +1,19 @@
-const Router = require("./router");
+const Router = require('./router');
 const {
   getTickets,
   getTicketById,
   createTicket,
   getTotalSales,
-  getMonthlySales,
-} = require("../Controllers/tickets.controller");
+  getMonthlySales
+} = require('../controllers/tickets.controller');
 
 class TicketsRouter extends Router {
   init() {
-    this.get("/", ["ADMIN"], getTickets);
-    this.get("/:id", ["ADMIN"], getTicketById);
-    this.post("/", ["ADMIN"], createTicket);
-    this.get("/sales/total", ["ADMIN"], getTotalSales);
-    this.get("/sales/monthly", ["ADMIN"], getMonthlySales);
+    this.get('/', ['ADMIN'], getTickets);
+    this.get('/:id', ['ADMIN'], getTicketById);
+    this.post('/', ['ADMIN'], createTicket);
+    this.get('/sales/total', ['ADMIN'], getTotalSales);
+    this.get('/sales/monthly', ['ADMIN'], getMonthlySales);
   }
 }
 
