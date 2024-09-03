@@ -2,12 +2,16 @@
   "name": "backend-proyectofinal",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
+"scripts": {
     "dev": "npm-run-all --parallel dev:*",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
     "postinstall": "npm-run-all --parallel install:*",
-    "start": "cd backend && npm start",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "start:frontend:prod": "cd frontend && npm run start:prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
