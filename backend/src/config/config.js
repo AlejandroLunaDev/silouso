@@ -19,6 +19,7 @@ const config = {
   CALLBACK_URL: process.env.CALLBACK_URL,
   PASS_COOKIE: process.env.PASS_COOKIE,
   MONGO_URL_TEST: process.env.MONGO_URL_TEST,
+  PRODUCTION_URL: process.env.PRODUCTION_URL,
   MODE: process.env.MODE || "production",
 };
 
