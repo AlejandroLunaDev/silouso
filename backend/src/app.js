@@ -57,7 +57,7 @@ app.use('/api/users', usersRouter.getRouter());
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/chat', chatRoutes);
-
+console.log('url production',config.PRODUCTION_URL);
 // Create HTTP server and configure Socket.io
 const httpServer = app.listen(config.PORT, () => {
   console.log(
