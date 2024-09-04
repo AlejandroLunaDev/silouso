@@ -17,7 +17,7 @@ const loginLimiter = require('../middlewares/loginLimiter'); // Importa el middl
 
 class SessionsRoutes extends Router {
   init() {
-    this.post('/login', ['PUBLIC'], loginLimiter, login); // Aplica el middleware aquí
+    this.post('/login', ['PUBLIC'],login); // Aplica el middleware aquí
     this.post('/recoverpassword', ['PUBLIC'], recoverPassword);
     this.post(
       '/updatepassword',
