@@ -35,6 +35,7 @@ module.exports = async (req, res) => {
         maxAge: 1000 * 60 * 60,
         sameSite: 'None',
         secure: true,
+        httpOnly: true,
         domain: '.silouso.shop'
       };
     }
