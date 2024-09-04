@@ -24,25 +24,13 @@ module.exports = async (req, res) => {
       return res.sendUserError("Invalid Credentials");
     }
     const userLimited = new UserCurrent(user);
-
-  
-
-    let cookieOptions = {
-      maxAge: 1000 * 60 * 60,
-    };
-
-    if (process.env.NODE_ENV === 'production') {
-      // Opciones de cookie para producción
-      cookieOptions = {
-        maxAge: 1000 * 60 * 60,
-        sameSite: 'None',
-        secure: true,
-        domain: '.silouso.shop'
-      };
-    }
     
     const token = generaJWT(userLimited);
-    res.cookie(config.PASS_COOKIE, token, cookieOptions);
+    res.cookie(config.PASS_COOKIE, token, {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: false,
+      sameSite: 'Lax', 
+    });
 
     await userService.update(user._id, {
       last_connection: new Date(),

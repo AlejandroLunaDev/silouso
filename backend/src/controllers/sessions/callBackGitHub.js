@@ -22,22 +22,12 @@ module.exports = async (req, res) => {
       thumbnail: user.avatar || user.thumbnail || '',
     };
 
-    let cookieOptions = {
-      maxAge: 1000 * 60 * 60,
-    };
-
-    if (process.env.NODE_ENV === 'production') {
-      // Opciones de cookie para producción
-      cookieOptions = {
-        maxAge: 1000 * 60 * 60,
-        sameSite: 'None',
-        secure: true,
-        domain: '.silouso.shop'
-      };
-    }
-    
     const token = generaJWT(userLimited);
-    res.cookie(config.PASS_COOKIE, token, cookieOptions);
+    res.cookie(config.PASS_COOKIE, token, {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: false,
+      sameSite: "Lax",
+    });
 
     const redirectURL =
       user.role === 'admin'
