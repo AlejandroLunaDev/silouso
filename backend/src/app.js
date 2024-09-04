@@ -28,6 +28,11 @@ const httpServer = app.listen(port, () => {
   console.log(`Server running on port ${isProduction ? config.PRODUCTION_URL : `http://localhost:${port}`}`);
 });
 
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', true);
+}
+
+
 const origin = isProduction
   ? ['https://www.silouso.shop']
   : ['http://localhost:5173', 'http://localhost:8080'];

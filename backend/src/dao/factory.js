@@ -1,23 +1,15 @@
 const config = require("../config/config");
 const MongoSingleton = require("./mongo/MongoSingleton");
-let User, Product, Cart, Ticket;
-switch (config.PERSISTENCE) {
 
-  case "FS":
-    console.log("Persisntecia Fs");
-    break;
-  case "MONGO":
-    MongoSingleton.connectDb(config.MONGO_URL);
-    User = require("./mongo/user.mongo");
-    Product = require("./mongo/product.mongo");
-    Cart = require("./mongo/cart.mongo");
-    Ticket = require("./mongo/ticket.mongo");
-    Category = require("./mongo/category.mongo");
-    break;
+// Conéctate a la base de datos MongoDB
+MongoSingleton.connectDb(config.MONGO_URL);
 
-  default:
-    throw new Error("Invalid Pesistence");
-}
+// Importa los modelos de MongoDB
+const User = require("./mongo/user.mongo");
+const Product = require("./mongo/product.mongo");
+const Cart = require("./mongo/cart.mongo");
+const Ticket = require("./mongo/ticket.mongo");
+const Category = require("./mongo/category.mongo");
 
 module.exports = {
   User,

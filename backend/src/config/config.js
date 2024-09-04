@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const config = {
   PORT: process.env.PORT || 8080,
   PRODUCTION_URL: process.env.PRODUCTION_URL,
@@ -8,7 +9,6 @@ const config = {
   PERSISTENCE: process.env.PERSISTENCE,
   SECRET_JWT: process.env.SECRET_JWT,
   SERVER_FRONT: process.env.SERVER_FRONT,
-
   GITHUB_CALLBACK_URL: process.env.NODE_ENV === 'production'
     ? process.env.GITHUB_CALLBACK_URL_PROD
     : process.env.GITHUB_CALLBACK_URL,
@@ -31,3 +31,6 @@ const config = {
 };
 
 module.exports = config;
+
+
+

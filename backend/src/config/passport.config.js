@@ -9,7 +9,6 @@ const { userService, cartService } = require("../services/index.service");
 require('dotenv').config();
 
 
-
 const buscaToken = (req) => {
   let token = null;
   if (req && req.cookies) {
