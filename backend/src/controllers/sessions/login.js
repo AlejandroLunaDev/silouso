@@ -25,13 +25,21 @@ module.exports = async (req, res) => {
     }
     const userLimited = new UserCurrent(user);
 
-    const cookieOptions = {
+  
+
+    let cookieOptions = {
       maxAge: 1000 * 60 * 60,
-      httpOnly: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      secure: process.env.NODE_ENV === 'production',
-      domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined
     };
+
+    if (process.env.NODE_ENV === 'production') {
+      // Opciones de cookie para producción
+      cookieOptions = {
+        maxAge: 1000 * 60 * 60,
+        sameSite: 'None',
+        secure: true,
+        domain: '.silouso.shop'
+      };
+    }
     
     const token = generaJWT(userLimited);
     res.cookie(config.PASS_COOKIE, token, cookieOptions);
