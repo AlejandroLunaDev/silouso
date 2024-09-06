@@ -30,7 +30,6 @@ module.exports = async (req, res) => {
     let cookieOptions = {
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
       secure: process.env.NODE_ENV === 'production', 
-      domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined,
       maxAge: 24 * 60 * 60 * 1000,
   };
 
