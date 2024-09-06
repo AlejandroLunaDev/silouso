@@ -1,24 +1,30 @@
+const bcrypt = require("bcrypt");
+const UserCurrent = require("../../dto/UserCurrent.dto");
+const generaJWT = require("../../utils/generaJWT");
+const config = require("../../config/config");
+const EErrors = require("../../utils/CustomErrors/EErrors");
+const CustomError = require("../../utils/CustomErrors/CustomError");
+const { userService } = require("../../services/index.service");
+
 module.exports = async (req, res) => {
   try {
-    if (!req.body.email || !req.body.password) {
-      return res.sendUserError("Debe completar todos los campos");
-    }
-
+    if (!req.body.email || !req.body.password)
+      return res.sendUserError("debe completar todos los campos");
     const user = await userService.getUserByEmail(req.body.email);
     if (!user) {
-      return CustomError.createError({
-        name: "UserNotFound",
+      CustomError.createError({
+        name: "Could not find user",
         cause: null,
-        message: `User ${req.body.email} doesn't exist`,
+        message: "Error " + req.body.email + " dont exist",
         code: EErrors.INVALID_TYPE_ERROR,
       });
     }
 
     if (!bcrypt.compareSync(req.body.password.trim(), user.password)) {
-      return res.sendUserError("Invalid credentials");
+      return res.sendUserError("Invalid Credentials");
     }
-
     const userLimited = new UserCurrent(user);
+    
     const token = generaJWT(userLimited);
 
     let cookieOptions = {
@@ -29,22 +35,23 @@ module.exports = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,  // 1 day expiry
     };
 
-    // Set the cookie with proper domain
     res.cookie(config.PASS_COOKIE, token, cookieOptions);
-    console.log("Cookie sent:", config.PASS_COOKIE, token, cookieOptions);
+    console.log("Cookie enviada:", config.PASS_COOKIE, token, cookieOptions);
 
-    // Update the user's last connection time
+
     await userService.update(user._id, {
       last_connection: new Date(),
     });
 
     res.sendSuccess({
       user: {
-        id: userLimited.id,
-        firstName: userLimited.first_name,
-        lastName: userLimited.last_name,
-        role: userLimited.role,
-      },
+        user: {
+          id: userLimited.id,
+          firstName: userLimited.first_name,
+          lastName: userLimited.last_name,
+          role: userLimited.role,
+        }
+      }
     });
   } catch (error) {
     req.logger.error(error.cause);
