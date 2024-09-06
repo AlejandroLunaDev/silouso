@@ -31,11 +31,12 @@ module.exports = async (req, res) => {
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
       secure: process.env.NODE_ENV === 'production', 
       httpOnly: process.env.NODE_ENV === 'production', 
-     domain: '.silouso.shop',
-     maxAge: 24 * 60 * 60 * 1000,
+      domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined,
+      maxAge: 24 * 60 * 60 * 1000,
   };
 
     res.cookie(config.PASS_COOKIE, token, cookieOptions);
+    console.log("Cookie enviada:", config.PASS_COOKIE, token, cookieOptions);
 
 
     await userService.update(user._id, {
