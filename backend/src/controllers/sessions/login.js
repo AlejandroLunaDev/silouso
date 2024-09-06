@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
       secure: process.env.NODE_ENV === 'production', 
       httpOnly: process.env.NODE_ENV === 'production', 
-     domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined,
+     domain: '.silouso.shop',
      maxAge: 24 * 60 * 60 * 1000,
   };
 
