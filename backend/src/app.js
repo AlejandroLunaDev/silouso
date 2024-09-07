@@ -25,8 +25,9 @@ const port = config.PORT || 3000;
 
 // Create HTTP server and configure Socket.io
 const httpServer = app.listen(port, () => {
-  console.log(`Server running on port ${isProduction ? config.PRODUCTION_URL : `http://localhost:${port}`}`);
+  console.log(`Server running on port ${port}`);
 });
+
 
 
 
