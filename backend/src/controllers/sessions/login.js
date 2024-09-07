@@ -28,12 +28,11 @@ module.exports = async (req, res) => {
     const token = generaJWT(userLimited);
 
     let cookieOptions = {
-      domain: '.silouso.shop',  // Set to frontend domain
-      sameSite: 'None',  // Allows cookie usage across domains
-      secure: process.env.NODE_ENV === 'production',  // Only send over HTTPS in production
-      httpOnly: true,  // Enhances security by preventing JS access
-      maxAge: 24 * 60 * 60 * 1000,  // 1 day expiry
-    };
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      secure: process.env.NODE_ENV === 'production', 
+      domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined,
+      maxAge: 24 * 60 * 60 * 1000,
+  };
 
     res.cookie(config.PASS_COOKIE, token, cookieOptions);
     console.log("Cookie enviada:", config.PASS_COOKIE, token, cookieOptions);
