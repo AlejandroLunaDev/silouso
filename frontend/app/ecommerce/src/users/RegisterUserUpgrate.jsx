@@ -4,11 +4,24 @@ import { useNavigate } from 'react-router-dom';
 
 export default function RegisterUserUpgrate() {
   const { decodedToken } = useAuth();
-  console.log(decodedToken);
+  console.log(decodedToken.user)
   const navigate = useNavigate();
 
-  // Simulación del estado de cada sección (esto podría venir de un estado real en tu aplicación)
-  const isPersonalDataComplete = true;
+  // Datos personales (completos si todos los campos necesarios están presentes en el primer documento)
+  const isPersonalDataComplete1 = decodedToken.user.documents[0];
+  const isPersonalDataComplete2 = decodedToken.user.documents[1];
+
+  // Verificación de que todos los campos necesarios están completos en el primer documento
+  const isPersonalDataComplete =
+    isPersonalDataComplete1 &&
+    isPersonalDataComplete1.fullName &&
+    isPersonalDataComplete1.dni &&
+    isPersonalDataComplete1.birthDate &&
+    isPersonalDataComplete1.phone &&
+    // Consideramos que la referencia en el segundo documento es suficiente
+    (isPersonalDataComplete1.reference || isPersonalDataComplete2?.reference);
+
+  // Simulación del estado de cada sección
   const isAddressComplete = false;
   const isBankDataComplete = false;
 
@@ -23,7 +36,13 @@ export default function RegisterUserUpgrate() {
       <aside className="w-1/3">
         <ul className="space-y-6">
           <li className="flex items-center justify-between space-x-4">
-            <button onClick={() => navigate('/upgrade/personalData')} className="border p-8 min-w-80 flex justify-between items-center w-full">
+            <button
+              onClick={() => !isPersonalDataComplete && navigate('/upgrade/personalData')}
+              className={`border p-8 min-w-80 flex justify-between items-center w-full ${
+                isPersonalDataComplete ? 'bg-gray-200 cursor-not-allowed' : ''
+              }`}
+              disabled={isPersonalDataComplete}
+            >
               <div className="flex items-center space-x-2">
                 <FaUser className="text-black" size={24} />
                 <h2 className="text-xl font-semibold text-black">Datos personales</h2>
@@ -36,7 +55,7 @@ export default function RegisterUserUpgrate() {
             </button>
           </li>
           <li className="flex items-center justify-between space-x-4">
-            <div className="border p-8 min-w-80 flex justify-between items-center w-full">
+            <button onClick={() => !isAddressComplete && navigate('/upgrade/AdressData')} className="border p-8 min-w-80 flex justify-between items-center w-full">
               <div className="flex items-center space-x-2">
                 <FaMapMarkedAlt className="text-black" size={24} />
                 <h2 className="text-xl font-semibold text-black">Dirección</h2>
@@ -46,7 +65,7 @@ export default function RegisterUserUpgrate() {
               ) : (
                 <FaTimesCircle className="text-red-500" size={24} />
               )}
-            </div>
+            </button>
           </li>
           <li className="flex items-center justify-between space-x-4">
             <div className="border p-8 min-w-80 flex justify-between items-center w-full">

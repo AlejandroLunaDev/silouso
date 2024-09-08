@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   },
   last_name: {
     type: String,
-    required: false, // Cambiado a false por si quieres permitir usuarios sin apellido
+    required: false,
   },
   age: {
     type: String,
@@ -40,13 +40,18 @@ const userSchema = new mongoose.Schema({
   documents: [
     {
       reference: {
-        type: String,
-        required: true,
+        dniFront: {
+          type: String,
+          required: false,
+        },
+        dniBack: {
+          type: String,
+          required: false,
+        }
       },
-      // Nuevos campos relacionados con la certificación
       fullName: {
         type: String,
-        required: true,
+        required: false,
       },
       dni: {
         type: String,
@@ -61,7 +66,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
       },
-      // Campos adicionales para la dirección
       address: {
         type: String,
         required: false,
@@ -82,7 +86,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
       },
-      // Campos adicionales para datos bancarios
       bankCard: {
         cardNumber: {
           type: String,
@@ -107,6 +110,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isPremium: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const userModel = mongoose.model(collection, userSchema);

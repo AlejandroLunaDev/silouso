@@ -15,6 +15,7 @@ import Upgrade from './users/Upgrade';
 import { useAuth } from '../../common/auth/hook/useAuth';
 import RegisterUserUpgrate from './users/RegisterUserUpgrate';
 import PersonalDataRegister from './users/PersonalDataRegister';
+import AdressDataRegister from './users/AdressDataRegister';
 
 export default function EcommerceApp() {
   const location = useLocation();
@@ -47,6 +48,7 @@ export default function EcommerceApp() {
         <Route path= '/upgrade' element={<Upgrade />} />
         <Route path = '/upgrade/register' element={<RegisterUserUpgrate />} />
         <Route path='/upgrade/personalData' element={<PersonalDataRegister />} />
+        <Route path='/upgrade/AdressData' element={<AdressDataRegister />} />
       </Routes>
     </div>
   );

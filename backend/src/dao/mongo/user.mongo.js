@@ -26,7 +26,7 @@ class User {
   }
 
   async updateUser(uid, data) {
-    return await userModel.findOneAndUpdate(uid, data);
+    return await userModel.findOneAndUpdate(uid, data, { new: true });
   }
 
   async deleteUser(uid) {

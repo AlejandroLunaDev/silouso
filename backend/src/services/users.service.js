@@ -1,6 +1,9 @@
+const { User } = require('../dao/factory');
+
+
 class UsersService {
   constructor(dao) {
-    this.dao = new dao();
+    this.dao = new dao(User);
   }
 
   async getUsers() {

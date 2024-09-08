@@ -59,3 +59,36 @@
 {"level":"error","message":null,"timestamp":"2024-09-04T17:13:24.583Z"}
 {"level":"error","timestamp":"2024-09-08T05:14:10.429Z"}
 {"level":"error","message":"Cast to ObjectId failed for value \"{ _id: 'undefined' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T12:14:31.359Z"}
+{"level":"error","message":"userService is not defined","timestamp":"2024-09-08T14:14:30.950Z"}
+{"level":"error","message":"userService is not defined","timestamp":"2024-09-08T14:15:29.194Z"}
+{"level":"error","message":"userService.getById is not a function","timestamp":"2024-09-08T14:18:19.617Z"}
+{"level":"error","message":"userService.getById is not a function","timestamp":"2024-09-08T14:21:44.344Z"}
+{"level":"error","message":"userService.getById is not a function","timestamp":"2024-09-08T14:26:31.545Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'findById')","timestamp":"2024-09-08T14:37:37.102Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'findById')","timestamp":"2024-09-08T14:39:29.811Z"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'findById')","timestamp":"2024-09-08T14:44:36.373Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T15:19:52.767Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T15:21:41.971Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T15:26:10.732Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T18:34:03.887Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T18:34:56.503Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T18:53:27.701Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T19:02:53.745Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T19:26:14.533Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T19:31:15.777Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T19:37:44.183Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T19:39:18.807Z"}
+{"level":"error","message":"UsersService.getById is not a function","timestamp":"2024-09-08T19:40:50.436Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ _id: undefined }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T19:43:33.774Z"}
+{"level":"error","message":"UsersService is not defined","timestamp":"2024-09-08T19:45:23.147Z"}
+{"level":"error","message":"userService.updateUser is not a function","timestamp":"2024-09-08T19:47:14.602Z"}
+{"level":"error","timestamp":"2024-09-08T19:58:03.737Z"}
+{"level":"error","timestamp":"2024-09-08T19:58:36.618Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de01ec7adddf98f4ff725d' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:00:21.505Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de01ec7adddf98f4ff725d' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:02:12.223Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de01ec7adddf98f4ff725d' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:03:12.306Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de01ec7adddf98f4ff725d' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:04:01.088Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de0365106a3a3c422eaead' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:05:06.265Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de0365106a3a3c422eaead' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:07:50.777Z"}
+{"level":"error","message":"Parameter \"filter\" to findOneAndUpdate() must be an object, got \"66de0365106a3a3c422eaead\" (type string)","timestamp":"2024-09-08T20:19:52.634Z"}
+{"level":"error","message":"Parameter \"filter\" to findOneAndUpdate() must be an object, got \"66de0365106a3a3c422eaead\" (type string)","timestamp":"2024-09-08T20:21:20.059Z"}
