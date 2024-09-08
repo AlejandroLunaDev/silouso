@@ -14,6 +14,7 @@ import Chat from './chat/Chat';
 import Upgrade from './users/Upgrade';
 import { useAuth } from '../../common/auth/hook/useAuth';
 import RegisterUserUpgrate from './users/RegisterUserUpgrate';
+import PersonalDataRegister from './users/PersonalDataRegister';
 
 export default function EcommerceApp() {
   const location = useLocation();
@@ -45,6 +46,7 @@ export default function EcommerceApp() {
         <Route path='/chat' element={decodedToken ? <Chat /> : <Navigate to='/login' />}/>
         <Route path= '/upgrade' element={<Upgrade />} />
         <Route path = '/upgrade/register' element={<RegisterUserUpgrate />} />
+        <Route path='/upgrade/personalData' element={<PersonalDataRegister />} />
       </Routes>
     </div>
   );

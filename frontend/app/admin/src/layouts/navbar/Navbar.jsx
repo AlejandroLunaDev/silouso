@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <>
     
-    <nav className=" w-80 border border-[#61005D] p-4">
+    <nav className=" h-dvh w-80 border border-[#61005D] p-4">
         <header>
           <figure className="flex items-center justify-center">
 

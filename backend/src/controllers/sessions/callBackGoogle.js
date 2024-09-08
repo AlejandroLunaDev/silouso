@@ -5,7 +5,7 @@ const config = require('../../config/config');
 module.exports = async (req, res) => {
   try {
     const user = req.user; // Supongo que el usuario ya está autenticado con Google
-
+    console.log('user', user);
     // Actualiza la fecha de la última conexión
     await userService.update(user._id, {
       last_connection: new Date(),
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       role: user.role,
       cartId: user.cartId,
       thumbnail: user.avatar || user.thumbnail || '',
-      document: user.document || '',
+      documents: user.documents || [],
     };
 
     let cookieOptions = {

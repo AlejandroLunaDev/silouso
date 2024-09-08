@@ -58,3 +58,4 @@
 {"level":"error","message":"Cannot read properties of undefined (reading 'emit')","timestamp":"2024-09-02T13:41:14.940Z"}
 {"level":"error","message":null,"timestamp":"2024-09-04T17:13:24.583Z"}
 {"level":"error","timestamp":"2024-09-08T05:14:10.429Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"{ _id: 'undefined' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T12:14:31.359Z"}
