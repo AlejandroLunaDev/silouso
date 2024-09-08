@@ -5,15 +5,24 @@ import Tooltip from '@mui/material/Tooltip';
 import { updateUserRole } from '../../../common/services/users';
 import { useState } from 'react';
 
+// Función para encontrar un documento por una palabra clave en su contenido
+const findDocumentByKey = (documents, key) => {
+  return documents.find(doc => doc[key]);
+};
+
 export default function RegisterUserUpgrade() {
   const { decodedToken } = useAuth();
   const navigate = useNavigate();
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateError, setUpdateError] = useState(null);
 
-  // Obtener el userId y los documentos directamente del array
   const userId = decodedToken.user.id;
-  const [addressData, personalData] = decodedToken.user.documents;
+
+  // Verificar si documents es un array y buscar documentos por clave
+  const documents = Array.isArray(decodedToken.user.documents) ? decodedToken.user.documents : [];
+
+  const personalData = findDocumentByKey(documents, 'dni'); // Suponiendo que 'dni' es único en documentos personales
+  const addressData = findDocumentByKey(documents, 'address'); // Suponiendo que 'address' está en los documentos de dirección
 
   // Verificación de que todos los campos necesarios están completos en los documentos
   const isPersonalDataComplete =
@@ -50,7 +59,7 @@ export default function RegisterUserUpgrade() {
       console.log('Attempting to update user role...');
       const result = await updateUserRole(userId, 'premium');
       console.log('Update result:', result);
-      navigate('/success'); // Redirige a una página de éxito o al lugar que consideres adecuado
+      navigate('/shop'); // Redirige a una página de éxito o al lugar que consideres adecuado
     } catch (error) {
       console.error('Update Error:', error);
       setUpdateError('Error al actualizar el rol. Inténtalo de nuevo más tarde.');
@@ -58,7 +67,6 @@ export default function RegisterUserUpgrade() {
       setIsUpdating(false);
     }
   };
-  
 
   return (
     <section className="px-52 flex justify-between items-start py-40">

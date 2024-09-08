@@ -60,7 +60,7 @@ export default function NavBar() {
     
     if (!decodedToken) {
       navigate('/login');
-    } else if (decodedToken.role !== 'PREMIUM') {
+    } else if (decodedToken.user.role !== 'premium') {
       navigate('/upgrade');
     } else {
       navigate('/addProduct');

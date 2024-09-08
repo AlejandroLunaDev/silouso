@@ -48,7 +48,7 @@ export default function EcommerceApp() {
         <Route path= '/upgrade' element={<Upgrade />} />
         <Route path = '/upgrade/register' element={<RegisterUserUpgrate />} />
         <Route path='/upgrade/personalData' element={<PersonalDataRegister />} />
-        <Route path='/upgrade/AdressData' element={<AdressDataRegister />} />
+        <Route path='/upgrade/addressData' element={<AdressDataRegister />} />
       </Routes>
     </div>
   );
