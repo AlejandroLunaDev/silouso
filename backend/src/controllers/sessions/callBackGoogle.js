@@ -22,13 +22,12 @@ module.exports = async (req, res) => {
       document: user.document || '',
     };
 
-    const cookieOptions = {
-      maxAge: 1000 * 60 * 60,
-      httpOnly: process.env.NODE_ENV === 'production',
+    let cookieOptions = {
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      secure: process.env.NODE_ENV === 'production',
-      domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined
-    };
+      secure: process.env.NODE_ENV === 'production', 
+      domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined,
+      maxAge: 24 * 60 * 60 * 1000,
+  };
     
 
     const token = generaJWT(userLimited);
