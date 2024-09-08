@@ -66,7 +66,7 @@ class UserRoutes extends Router {
 
     this.delete('/:uid', ['ADMIN'], deleteUser);
     this.delete('/', ['ADMIN'], deleteAllUsersInactive);
-    this.put('/:uid/role', ['ADMIN'], updateRole);
+    this.put('/:uid/role', ['ADMIN','USER'], updateRole);
   }
 }
 

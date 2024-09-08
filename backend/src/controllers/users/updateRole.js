@@ -5,7 +5,6 @@ const EErrors = require("../../utils/CustomErrors/EErrors");
 module.exports = async (req, res) => {
   const { uid } = req.params;
   const { role: newRole } = req.body;
-  const currentUser = req.user; // Obtenemos el usuario que hace la solicitud
 
   try {
     const user = await userService.getById(uid);
@@ -28,35 +27,10 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Si el usuario quiere actualizar su rol a premium, validamos que tenga los documentos completos
-    if (newRole === "premium" && currentUser.role !== "admin") {
-      const requiredDocuments = ["identification", "address", "statusaccount"];
-
-      const hasAllDocuments = requiredDocuments.every(docName =>
-        user.documents.some(document => document.name === docName && document.reference)
-      );
-
-      if (!hasAllDocuments) {
-        throw CustomError.createError({
-          name: "IncompleteDocumentsError",
-          cause: null,
-          message: "User does not have all required documents to upgrade to premium.",
-          code: EErrors.MISSING_DOCUMENTS_ERROR,
-        });
-      }
-    }
-
-    // Si el rol es diferente de premium, eliminamos los documentos adicionales
-    const newDocuments = user.documents.filter(document => document.name === "profile");
-    if (newRole !== "premium") {
-      // Aquí se eliminarían las referencias a los documentos no necesarios si es necesario.
-      // Ejemplo: Actualizar las referencias en el almacenamiento en la nube si es necesario.
-    }
-
-    // Actualizamos el rol y los documentos
+    // Solo actualizamos el rol, sin modificar los documentos
     await userService.update(
       { _id: uid },
-      { role: newRole, documents: newRole === "premium" ? user.documents : newDocuments }
+      { role: newRole }
     );
     const updatedUser = await userService.getById(uid);
 

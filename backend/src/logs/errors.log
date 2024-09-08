@@ -92,3 +92,6 @@
 {"level":"error","message":"Cast to ObjectId failed for value \"{ uid: '66de0365106a3a3c422eaead' }\" (type Object) at path \"_id\" for model \"users\"","timestamp":"2024-09-08T20:07:50.777Z"}
 {"level":"error","message":"Parameter \"filter\" to findOneAndUpdate() must be an object, got \"66de0365106a3a3c422eaead\" (type string)","timestamp":"2024-09-08T20:19:52.634Z"}
 {"level":"error","message":"Parameter \"filter\" to findOneAndUpdate() must be an object, got \"66de0365106a3a3c422eaead\" (type string)","timestamp":"2024-09-08T20:21:20.059Z"}
+{"cause":null,"code":1,"level":"error","name":"IncompleteDocumentsError","timestamp":"2024-09-08T21:07:10.917Z"}
+{"cause":null,"code":1,"level":"error","name":"IncompleteDocumentsError","timestamp":"2024-09-08T21:10:11.518Z"}
+{"cause":null,"code":1,"level":"error","name":"IncompleteDocumentsError","timestamp":"2024-09-08T21:12:44.134Z"}
