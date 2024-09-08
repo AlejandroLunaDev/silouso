@@ -23,11 +23,15 @@ module.exports = async (req, res) => {
     };
 
     const token = generaJWT(userLimited);
-    res.cookie(config.PASS_COOKIE, token, {
-      maxAge: 1000 * 60 * 60,
-      httpOnly: false,
-      sameSite: "Lax",
-    });
+    let cookieOptions = {
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      secure: process.env.NODE_ENV === 'production', 
+      domain: process.env.NODE_ENV === 'production' ? '.silouso.shop' : undefined,
+      maxAge: 24 * 60 * 60 * 1000,
+  };
+
+    res.cookie(config.PASS_COOKIE, token, cookieOptions);
+    console.log("Cookie enviada:", config.PASS_COOKIE, token, cookieOptions);
 
     const redirectURL =
       user.role === 'admin'
