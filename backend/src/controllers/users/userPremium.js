@@ -17,36 +17,35 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Si el usuario es premium, hacemos los cambios
+    // Si el usuario es premium, realizamos los cambios
     if (user.role === "premium") {
-      const newDocuments = [];
-      
-      // Recorremos los documentos del usuario
-      for (const document of user.documents) {
-        // Mantenemos el documento de perfil, eliminamos el resto de S3
-        if (document.name === "profile") {
-          newDocuments.push({
-            name: document.name,
-            reference: document.reference,
-          });
-        } else if (document.reference) {
-          // Elimina el archivo de S3
-          try {
-            await deleteFromS3(document.reference);
-          } catch (s3Error) {
-            req.logger.error(`Error deleting file from S3: ${s3Error.message}`);
-            return res.status(500).json({
-              status: "error",
-              message: "Error al eliminar archivos del almacenamiento en la nube.",
-            });
-          }
+      // Borrar todo el contenido del campo documents
+      const clearedDocuments = {
+        reference: {
+          dniFront: '',
+          dniBack: '',
+        },
+        fullName: '',
+        dni: '',
+        birthDate: null,
+        phone: '',
+        address: '',
+        postalCode: '',
+        neighborhood: '',
+        city: '',
+        province: '',
+        bankCard: {
+          cardNumber: '',
+          cardHolderName: '',
+          expirationDate: null,
+          cvv: '',
         }
-      }
+      };
 
-      // Actualizamos el rol del usuario y sus documentos
+      // Actualizamos el rol del usuario y vaciamos el campo documents
       await userService.update(
         { _id: uid },
-        { role: "user", documents: newDocuments }
+        { role: "user", documents: clearedDocuments }
       );
 
       const updatedUser = await userService.getById(uid);

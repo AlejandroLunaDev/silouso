@@ -3,7 +3,9 @@ import {
   getUsers,
   deleteUser,
   deleteInactiveUsers,
-  updateUserRole
+  updateUserRole,
+  userPremiumDowngrade
+  
 } from '../../../common/services/users';
 import { FaTrash, FaCircle } from 'react-icons/fa';
 import Swal from 'sweetalert2';
@@ -66,7 +68,14 @@ const Users = () => {
     });
 
     if (result.isConfirmed) {
-      await updateUserRole(userId, newRole); // Asegúrate de pasar solo el nuevo rol
+      if (newRole === 'user') {
+        // Si es un downgrade a 'user', llamamos a la API de downgrade
+        await userPremiumDowngrade(userId);
+      } else {
+        // Si es un cambio a premium, actualizamos directamente
+        await updateUserRole(userId, newRole);
+      }
+
       // Actualiza la lista de usuarios después de cambiar el rol
       const updatedUsers = users.map(user =>
         user._id === userId ? { ...user, role: newRole } : user
@@ -79,6 +88,7 @@ const Users = () => {
       );
     }
   };
+
 
   if (!users.length) return <p>Loading...</p>;
 

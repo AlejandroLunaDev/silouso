@@ -16,7 +16,7 @@ const { getProductsByUid } = require('../controllers/products.controller'); // A
 
 class UserRoutes extends Router {
   init() {
-    this.get('/premium/:uid', ['ADMIN'], userPremium);
+    this.put('/premium/:uid', ['ADMIN'], userPremium);
     this.get('/', ['ADMIN', 'USER', 'PREMIUM'], getUsers);
     this.get('/admin', ['ADMIN'], getAdminUsers);
     this.get('/:uid/products', ['USER', 'PREMIUM'], getProductsByUid); // Corrige el nombre aquí

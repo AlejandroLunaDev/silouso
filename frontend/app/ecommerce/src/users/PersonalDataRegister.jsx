@@ -62,23 +62,14 @@ export default function Paso1Formulario({ onNext }) {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="space-y-6 p-6 bg-white rounded-lg shadow-md">
-      <input
-        type="file"
-        id="identificationFront"
-        name="identificationFront"
-        onChange={(event) => formik.setFieldValue("identificationFront", event.currentTarget.files[0])}
-        className="border border-gray-300 rounded-md p-2"
-      />
-      <input
-        type="file"
-        id="identificationBack"
-        name="identificationBack"
-        onChange={(event) => formik.setFieldValue("identificationBack", event.currentTarget.files[0])}
-        className="border border-gray-300 rounded-md p-2"
-      />
+    <section className='px-96 py-16 flex flex-col justify-center'>
+      <header>
+        <h1 className="text-3xl font-bold  my-5 text-center">Confirme sus dates personales</h1>
+      </header>
+    <form onSubmit={formik.handleSubmit} className="space-y-6 p-6 flex flex-col">
+  
       <div className="flex flex-col space-y-2">
-        <label htmlFor="fullName" className="font-medium text-gray-700">Nombre completo:</label>
+        <label htmlFor="fullName" className="text-gray-700 font-semibold">Nombre completo:</label>
         <input
           type="text"
           id="fullName"
@@ -94,7 +85,7 @@ export default function Paso1Formulario({ onNext }) {
       </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="dni" className="font-medium text-gray-700">DNI:</label>
+        <label htmlFor="dni" className=" text-gray-700 font-semibold">DNI:</label>
         <input
           type="text"
           id="dni"
@@ -108,9 +99,26 @@ export default function Paso1Formulario({ onNext }) {
           <div className="text-red-600 text-sm">{formik.errors.dni}</div>
         ) : null}
       </div>
+        <span className='text-gray-700 font-semibold'>Foto frente y verso del DNI</span>
+      <div className='flex'>
+      <input
+        type="file"
+        id="identificationFront"
+        name="identificationFront"
+        onChange={(event) => formik.setFieldValue("identificationFront", event.currentTarget.files[0])}
+        className="p-2"
+      />
+      <input
+        type="file"
+        id="identificationBack"
+        name="identificationBack"
+        onChange={(event) => formik.setFieldValue("identificationBack", event.currentTarget.files[0])}
+        className="p-2"
+      />
+      </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="birthDate" className="font-medium text-gray-700">Fecha de nacimiento:</label>
+        <label htmlFor="birthDate" className="text-gray-700 font-semibold">Fecha de nacimiento:</label>
         <input
           type="date"
           id="birthDate"
@@ -126,7 +134,7 @@ export default function Paso1Formulario({ onNext }) {
       </div>
 
       <div className="flex flex-col space-y-2">
-        <label htmlFor="phone" className="font-medium text-gray-700">Número de celular:</label>
+        <label htmlFor="phone" className="text-gray-700 font-semibold">Número de celular:</label>
         <input
           type="tel"
           id="phone"
@@ -143,10 +151,11 @@ export default function Paso1Formulario({ onNext }) {
 
       <button
         type="submit"
-        className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150"
+        className="w-full py-2 bg-[#61005D] text-white rounded-md hover:bg-[#61005ee2] transition duration-150"
       >
-        Siguiente
+        Continuar
       </button>
     </form>
+    </section>
   );
 }

@@ -4,3 +4,4 @@ export { getUserById } from './getUserById';
 export { updateUserRole } from './updateUserRole';
 export { deleteUser } from './deleteUser';
 export { deleteInactiveUsers } from './deleteInactiveUsers';
+export { userPremiumDowngrade } from './userPremiumDowngrade';
