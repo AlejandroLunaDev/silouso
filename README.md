@@ -1,5 +1,5 @@
 # silousotec  <p align=center>
-  <img src="./public/nlufavicon.svg" height="150">
+  <img src="https://raw.githubusercontent.com/AlejandroLunaDev/silouso/36d57ad1d1702ae5eef84a886c0da28f66d89514/frontend/public/silouso.svg" height="150">
   </p>
 
 <div align=center>Este proyecto todavia esta en desarrollo, motivado por el curso de backend de CorderHouse, integrando el proyecto del curso de React.
