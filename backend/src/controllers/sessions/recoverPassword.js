@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
   <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
           <h1 style="color: #333;">Recuperar Contraseña</h1>
           <p style="color: #555; font-size: 16px;">Haga clic en el botón a continuación para recuperar su contraseña. Este enlace solo es válido por 1 hora.</p>
-          <a href="${config.SERVER}/resetpassword?token=${token}" style="
+          <a href="${config.SERVER_FRONT}/resetpassword?token=${token}" style="
             display: inline-block;
             padding: 15px 25px;
             margin: 20px 0;
