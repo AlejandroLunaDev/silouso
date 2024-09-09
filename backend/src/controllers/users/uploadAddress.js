@@ -22,16 +22,23 @@ module.exports = async (req, res) => {
     }
 
     // Actualizar los campos de dirección en el primer documento dentro del array `documents`
-    const updatedUser = await userService.updateDocuments(
-      user._id,
+   
+    const newAddressDocument = {
+      address,
+      postalCode,
+      neighborhood,
+      city,
+      province
+    };
+
+    // Actualizar los documentos del usuario agregando el nuevo documento
+    const updatedUser = await userService.update(
+      { _id: user._id },
       {
-        address,
-        postalCode,
-        neighborhood,
-        city,
-        province
+        $push: { documents: newAddressDocument } 
       }
-    );
+    ); 
+    
 
     if (!updatedUser) {
       return res.status(404).json({ status: 'error', msg: 'Error al actualizar los datos de dirección.' });

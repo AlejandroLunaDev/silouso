@@ -3,7 +3,7 @@
 import { getBaseUrl } from "../../../../common/helper/envHelper";
 
 const BASE_URL = getBaseUrl();
-
+console.log('BASE_URL:', BASE_URL);
 export async function uploadAddress(uid, addressData) {
     console.log('uploadAddress: uid:', uid, 'addressData:', addressData);
     try {
@@ -11,10 +11,10 @@ export async function uploadAddress(uid, addressData) {
         const response = await fetch(`${BASE_URL}/api/users/${uid}/documents/address`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json', // Indica que estamos enviando JSON
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(addressData), // Convierte el objeto addressData a JSON
-            credentials: 'include', // Asegúrate de que la cookie está siendo enviada
+            body: JSON.stringify(addressData), 
+            credentials: 'include',
         });
 
         if (!response.ok) {
