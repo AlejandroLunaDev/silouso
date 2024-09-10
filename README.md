@@ -1,4 +1,4 @@
-# silousotec  <p align=center>
+ <p align=center>
   <img src="https://raw.githubusercontent.com/AlejandroLunaDev/silouso/36d57ad1d1702ae5eef84a886c0da28f66d89514/frontend/public/silouso.svg" height="150">
   </p>
 
@@ -90,6 +90,10 @@ Puedes encontrar la documentación completa de nuestra API utilizando Swagger en
 
 
 ¡Explora y prueba nuestros endpoints para interactuar con la API de SiLoUso!
+
+<img src= "public/adminPanel.png">
+
+Cuenta con un panel para facilitar las tareas del admin!
 
 ## <img src = "https://github.com/0xAbdulKhalid/0xAbdulKhalid/raw/main/assets/mdImages/about_me.gif" width = 50px><b> Equipo</b>
 
