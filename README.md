@@ -91,7 +91,7 @@ Puedes encontrar la documentación completa de nuestra API utilizando Swagger en
 
 ¡Explora y prueba nuestros endpoints para interactuar con la API de SiLoUso!
 
-<img src= "public/adminPanel.png">
+<img src= "/frontend/public/adminPanel.png">
 
 Cuenta con un panel para facilitar las tareas del admin!
 
